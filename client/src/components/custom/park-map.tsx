@@ -41,18 +41,29 @@ export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: 
   const mapZoom = getMapZoom();
   const selectedPark = parks.find(park => park.id === selectedParkId);
 
-  // Function to center map on specific park
-  function FlyToMarker({ lat, lng }: { lat: number, lng: number }) {
+  // Function to center map on specific park - handles flying to specific park coordinates
+  function FlyToMarker({ position }: { position: [number, number] }) {
     const map = useMap();
+    
     useEffect(() => {
-      // Make sure lat and lng are valid numbers
-      if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
-        map.flyTo([lat, lng], 7, {
-          animate: true,
-          duration: 1.5
-        });
+      if (position && position.length === 2) {
+        const [latitude, longitude] = position;
+        // Extra validation to ensure we have valid coordinates
+        if (typeof latitude === 'number' && 
+            typeof longitude === 'number' && 
+            !isNaN(latitude) && 
+            !isNaN(longitude)) {
+          // Use timeout to make sure map is properly initialized
+          setTimeout(() => {
+            map.flyTo([latitude, longitude], 7, {
+              animate: true,
+              duration: 1.5
+            });
+          }, 100);
+        }
       }
-    }, [map, lat, lng]);
+    }, [map, position]);
+    
     return null;
   }
   
@@ -99,8 +110,10 @@ export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: 
         {/* Fly to selected park if any */}
         {selectedPark && selectedPark.latitude && selectedPark.longitude && (
           <FlyToMarker 
-            lat={parseFloat(selectedPark.latitude)}
-            lng={parseFloat(selectedPark.longitude)}
+            position={[
+              parseFloat(selectedPark.latitude),
+              parseFloat(selectedPark.longitude)
+            ]}
           />
         )}
         
