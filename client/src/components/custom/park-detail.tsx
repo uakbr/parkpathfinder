@@ -113,17 +113,26 @@ export function ParkDetail({ park, selectedMonth, onClose }: ParkDetailProps) {
         </div>
         
         <div className="mb-4">
-          <h4 className="font-montserrat font-semibold text-sm mb-2">AI Recommendations</h4>
-          <div className="bg-lightAccent p-3 rounded text-sm min-h-[80px]">
+          <div className="flex items-center justify-between mb-2">
+            <h4 className="font-montserrat font-semibold text-sm">AI Insights for {selectedMonth}</h4>
+            <div className="flex items-center text-xs text-secondary">
+              <i className="bx bx-bot mr-1"></i>
+              <span>Powered by AI</span>
+            </div>
+          </div>
+          <div className="bg-secondary bg-opacity-10 p-3 rounded-lg text-sm min-h-[100px] border-l-4 border-primary">
             {isLoadingRecommendation ? (
               <div className="flex items-center justify-center h-full">
                 <div className="flex items-center gap-2">
                   <i className="bx bx-loader-alt animate-spin text-secondary"></i>
-                  <span>Generating personalized recommendations...</span>
+                  <span>Creating personalized insights...</span>
                 </div>
               </div>
             ) : (
-              <p className="font-opensans">{aiRecommendation}</p>
+              <div className="font-opensans leading-relaxed whitespace-pre-line">
+                {aiRecommendation || 
+                 "Select a park and use the AI Travel Advisor to get personalized recommendations for your visit."}
+              </div>
             )}
           </div>
         </div>
