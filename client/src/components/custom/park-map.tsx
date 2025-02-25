@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl } from "react-leaflet";
+import { TileLayer, Marker, Popup, useMap, ZoomControl } from "react-leaflet";
 import L from "leaflet";
 import { ParkDetail } from "./park-detail";
 import { Park } from "@/lib/types";
+import { LazyMapContainer } from "./map-container";
 
 // Fix for Leaflet marker icons
 // @ts-ignore
@@ -34,25 +35,15 @@ const DEFAULT_CENTER: [number, number] = [39.8283, -98.5795];
 const DEFAULT_ZOOM = 4;
 
 // Helper to parse coordinates safely
-function parseCoords(lat: string | number | undefined, lng: string | number | undefined): [number, number] | null {
+function parseCoordinates(lat: string | number | undefined, lng: string | number | undefined): [number, number] | null {
   if (lat === undefined || lng === undefined) return null;
   
   try {
-    // Parse string values to numbers
     const numLat = typeof lat === 'string' ? parseFloat(lat) : Number(lat);
     const numLng = typeof lng === 'string' ? parseFloat(lng) : Number(lng);
     
-    // Validate the parsed numbers
-    if (isNaN(numLat) || isNaN(numLng)) {
-      console.warn('Invalid coordinates (NaN):', { lat, lng });
-      return null;
-    }
-    
-    // Check for valid coordinate ranges
-    if (numLat < -90 || numLat > 90 || numLng < -180 || numLng > 180) {
-      console.warn('Coordinates out of range:', { lat: numLat, lng: numLng });
-      return null;
-    }
+    if (isNaN(numLat) || isNaN(numLng)) return null;
+    if (numLat < -90 || numLat > 90 || numLng < -180 || numLng > 180) return null;
     
     return [numLat, numLng];
   } catch (error) {
@@ -66,19 +57,15 @@ function FlyToMarker({ position }: { position: [number, number] }) {
   const map = useMap();
   
   useEffect(() => {
-    try {
-      // Add a slight delay to ensure map is ready
-      const timer = setTimeout(() => {
-        map.flyTo(position, 8, {
-          animate: true,
-          duration: 1.5
-        });
-      }, 100);
-      
-      return () => clearTimeout(timer);
-    } catch (error) {
-      console.error('Error flying to marker:', error);
-    }
+    const timer = setTimeout(() => {
+      try {
+        map.flyTo(position, 8, { animate: true, duration: 1.5 });
+      } catch (error) {
+        console.error('Error flying to position:', error);
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, [map, position]);
   
   return null;
@@ -92,52 +79,64 @@ interface ParkMapProps {
 }
 
 export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: ParkMapProps) {
-  // Find the selected park
-  const selectedPark = useMemo(() => {
-    return parks.find(park => park.id === selectedParkId);
-  }, [parks, selectedParkId]);
+  // Wait for data to be available
+  const [isDataReady, setIsDataReady] = useState(false);
   
-  // Get valid markers with coordinates
+  // Find the selected park
+  const selectedPark = parks.find(park => park.id === selectedParkId);
+  
+  // Get valid coordinates for parks
   const validMarkers = useMemo(() => {
-    return parks
-      .map(park => {
-        const coords = parseCoords(park.latitude, park.longitude);
-        if (!coords) return null;
-        
-        return {
+    if (parks.length === 0) return [];
+    
+    // Filter parks with valid coordinates
+    const markers = [];
+    
+    for (const park of parks) {
+      const coords = parseCoordinates(park.latitude, park.longitude);
+      if (coords) {
+        markers.push({
           id: park.id,
           name: park.name,
           state: park.state,
           rating: park.rating,
           position: coords,
           isSelected: park.id === selectedParkId
-        };
-      })
-      .filter(Boolean); // Remove null entries
+        });
+      }
+    }
+    
+    return markers;
   }, [parks, selectedParkId]);
   
   // Get coordinates for selected park
   const selectedPosition = useMemo(() => {
     if (!selectedPark) return null;
-    return parseCoords(selectedPark.latitude, selectedPark.longitude);
+    return parseCoordinates(selectedPark.latitude, selectedPark.longitude);
   }, [selectedPark]);
   
-  // Log coordinate info for debugging
+  // Mark data as ready once we have parks
   useEffect(() => {
-    console.log(`Found ${validMarkers.length} valid markers out of ${parks.length} parks`);
-    if (selectedPark) {
-      console.log('Selected park coordinates:', {
-        parkId: selectedPark.id,
-        name: selectedPark.name,
-        lat: selectedPark.latitude,
-        lng: selectedPark.longitude
-      });
+    if (parks.length > 0 && !isDataReady) {
+      setIsDataReady(true);
     }
-  }, [validMarkers.length, parks.length, selectedPark]);
+  }, [parks, isDataReady]);
+  
+  // Loading state
+  if (!isDataReady) {
+    return (
+      <div className="flex-1 relative overflow-hidden h-[calc(100vh-80px)] bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading map data...</p>
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div className="flex-1 relative overflow-hidden h-[calc(100vh-80px)]">
-      <MapContainer 
+      <LazyMapContainer
         center={DEFAULT_CENTER}
         zoom={DEFAULT_ZOOM}
         className="absolute inset-0 z-0 h-full"
@@ -149,9 +148,9 @@ export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: 
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
-        {/* Render only markers with valid coordinates */}
+        {/* Only render markers with valid coordinates */}
         {validMarkers.map(marker => (
-          <Marker 
+          <Marker
             key={marker.id}
             position={marker.position}
             icon={marker.isSelected ? selectedParkIcon : parkIcon}
@@ -169,11 +168,11 @@ export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: 
           </Marker>
         ))}
         
-        {/* Fly to selected park if coordinates are valid */}
+        {/* Only fly to selected position if coordinates are valid */}
         {selectedPosition && <FlyToMarker position={selectedPosition} />}
         
         <ZoomControl position="topright" />
-      </MapContainer>
+      </LazyMapContainer>
       
       {/* Selected Park Detail Card */}
       {selectedPark && (
