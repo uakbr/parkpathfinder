@@ -16,17 +16,17 @@ L.Icon.Default.mergeOptions({
 });
 
 const parkIcon = new L.Icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/512/9833/9833221.png',
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32]
+  iconUrl: 'https://cdn-icons-png.flaticon.com/512/5266/5266848.png',
+  iconSize: [25, 25],
+  iconAnchor: [12, 25],
+  popupAnchor: [0, -25]
 });
 
 const selectedParkIcon = new L.Icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/512/9833/9833221.png',
-  iconSize: [48, 48],
-  iconAnchor: [24, 48],
-  popupAnchor: [0, -48]
+  iconUrl: 'https://cdn-icons-png.flaticon.com/512/5266/5266880.png',
+  iconSize: [35, 35],
+  iconAnchor: [17, 35],
+  popupAnchor: [0, -35]
 });
 
 interface ParkMapProps {
@@ -45,7 +45,8 @@ export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: 
   function FlyToMarker({ lat, lng }: { lat: number, lng: number }) {
     const map = useMap();
     useEffect(() => {
-      if (lat && lng) {
+      // Make sure lat and lng are valid numbers
+      if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
         map.flyTo([lat, lng], 7, {
           animate: true,
           duration: 1.5
@@ -56,11 +57,12 @@ export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: 
   }
   
   return (
-    <div className="flex-1 relative overflow-hidden">
+    <div className="flex-1 relative overflow-hidden h-[calc(100vh-80px)]">
       <MapContainer 
         center={[mapCenter.lat, mapCenter.lng]} 
         zoom={mapZoom} 
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 h-full"
+        style={{ height: "calc(100vh - 80px)" }}
         zoomControl={false}
       >
         <TileLayer
@@ -95,7 +97,7 @@ export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: 
         })}
         
         {/* Fly to selected park if any */}
-        {selectedPark && (
+        {selectedPark && selectedPark.latitude && selectedPark.longitude && (
           <FlyToMarker 
             lat={parseFloat(selectedPark.latitude)}
             lng={parseFloat(selectedPark.longitude)}
