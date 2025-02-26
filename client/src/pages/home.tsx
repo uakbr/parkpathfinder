@@ -11,8 +11,8 @@ import { MobileNav } from "@/components/custom/mobile-nav";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Park, monthsArray } from "@/lib/types";
-import { getCurrentMonth } from "@/lib/utils";
+import { Park, monthsArray, monthsShortArray } from "@/lib/types";
+import { getCurrentMonth, cn } from "@/lib/utils";
 import { parkData } from "@/lib/park-data"; // Fallback for development
 import { Search, Calendar, Map, PlaneTakeoff } from "lucide-react";
 
@@ -25,6 +25,12 @@ export default function Home() {
   const [currentView, setCurrentView] = useState<string>("map");
   const [tripId, setTripId] = useState<number | null>(null);
   const [selectedPark, setSelectedPark] = useState<Park | null>(null);
+  
+  // Ensure current month is always set on initial load
+  useEffect(() => {
+    const currentMonth = getCurrentMonth();
+    setSelectedMonth(currentMonth);
+  }, []);
   
   // Fetch parks data
   const { data: parks = [], isLoading, error } = useQuery({ 
@@ -143,12 +149,33 @@ export default function Home() {
             </div>
             
             <TabsContent value="map" className="m-0 h-[calc(100vh-10rem)]">
-              <ParkMap
-                parks={sortedParks}
-                selectedParkId={selectedParkId}
-                selectedMonth={selectedMonth}
-                onSelectPark={handleSelectPark}
-              />
+              <div className="relative h-full">
+                <ParkMap
+                  parks={sortedParks}
+                  selectedParkId={selectedParkId}
+                  selectedMonth={selectedMonth}
+                  onSelectPark={handleSelectPark}
+                />
+                {/* Quick month selector floating on mobile map */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-background/90 backdrop-blur-sm rounded-full shadow-lg px-4 py-1 border border-border overflow-x-auto max-w-[90%] whitespace-nowrap">
+                  <div className="flex gap-2 items-center">
+                    {monthsShortArray.map((month, index) => (
+                      <button
+                        key={month}
+                        className={cn(
+                          "text-xs py-1 px-2 rounded-full transition-colors",
+                          selectedMonth === monthsArray[index] 
+                            ? "bg-primary text-primary-foreground" 
+                            : "bg-background hover:bg-muted"
+                        )}
+                        onClick={() => handleMonthChange(monthsArray[index])}
+                      >
+                        {month}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </TabsContent>
             
             <TabsContent value="parks" className="m-0 h-[calc(100vh-10rem)] overflow-y-auto">

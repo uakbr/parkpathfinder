@@ -51,9 +51,9 @@ const createMarkerIcon = (color: string, num: number) => {
 };
 
 // Helper function to ensure we have valid coordinates for Leaflet
-function ensureValidCoordinates(coords: [number, number] | null): L.LatLngExpression {
+function ensureValidCoordinates(coords: [number, number] | null): L.LatLngTuple {
   // Default coordinates in case of null (center of US)
-  return coords || [39.8283, -98.5795];
+  return coords || [39.8283, -98.5795] as L.LatLngTuple;
 }
 
 // Define route colors for each day
@@ -232,7 +232,7 @@ export function TripMap({ tripId, parkId }: TripMapProps) {
                     return (
                       <Marker
                         key={activity.id}
-                        position={position}
+                        position={position as [number, number]}
                         icon={createMarkerIcon(dayColor, actIndex + 1)}
                       >
                         <Popup>
