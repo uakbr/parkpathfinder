@@ -86,53 +86,32 @@ function FlyToMarker({ position }: { position: [number, number] }) {
   return null;
 }
 
-// Map reset control component
+// Simple button component for resetting map view
 function ResetMapView() {
   const map = useMap();
   
   const handleResetView = useCallback(() => {
-    map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+    // Reset to default view with appropriate zoom level
+    const zoom = isMobileDevice() ? DEFAULT_ZOOM + MOBILE_ZOOM_ADJUST : DEFAULT_ZOOM;
+    map.setView(DEFAULT_CENTER, zoom);
   }, [map]);
 
-  // Create a custom control button
-  useEffect(() => {
-    // Create a custom reset button control
-    const ResetViewControl = L.Control.extend({
-      options: {
-        position: 'bottomright'
-      },
-      
-      onAdd: function() {
-        const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
-        container.innerHTML = `
-          <a href="#" class="flex items-center justify-center" title="Reset map view" aria-label="Reset map view">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
-            </svg>
-          </a>
-        `;
-        
-        L.DomEvent
-          .on(container, 'click', L.DomEvent.preventDefault)
-          .on(container, 'click', () => {
-            handleResetView();
-          });
-          
-        return container;
-      }
-    });
-    
-    // Add the control to the map
-    const resetControl = new ResetViewControl();
-    map.addControl(resetControl);
-    
-    // Clean up on unmount
-    return () => {
-      map.removeControl(resetControl);
-    };
-  }, [map, handleResetView]);
-
-  return null;
+  return (
+    <div className="leaflet-bottom leaflet-right" style={{ marginBottom: "50px" }}>
+      <div className="leaflet-control leaflet-bar">
+        <button
+          onClick={handleResetView}
+          className="w-[30px] h-[30px] bg-white flex items-center justify-center text-gray-700 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-50 focus:outline-none"
+          title="Reset map view"
+          aria-label="Reset map view"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
 }
 
 interface ParkMapProps {

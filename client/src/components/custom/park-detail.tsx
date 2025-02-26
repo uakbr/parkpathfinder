@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { Park } from "@/lib/types";
 import { activityIcons, getActivityIcon } from "@/lib/utils";
 import { getAIRecommendation } from "@/lib/ai-service";
+import { X, MapPin, Star, SunMedium, Moon, CloudRain, CalendarPlus, Info, Loader2 } from "lucide-react";
 
 interface ParkDetailProps {
   park: Park;
@@ -15,6 +16,7 @@ interface ParkDetailProps {
 export function ParkDetail({ park, selectedMonth, onClose }: ParkDetailProps) {
   const [aiRecommendation, setAiRecommendation] = useState<string>("");
   const [isLoadingRecommendation, setIsLoadingRecommendation] = useState<boolean>(false);
+  const [showFullDescription, setShowFullDescription] = useState<boolean>(false);
   
   const monthLower = selectedMonth.toLowerCase();
   const weather = park.weather[monthLower] || {
@@ -46,110 +48,146 @@ export function ParkDetail({ park, selectedMonth, onClose }: ParkDetailProps) {
   }, [park.id, selectedMonth]);
   
   return (
-    <div className="p-0">
-      <img
-        src={park.image_url}
-        alt={park.name}
-        className="w-full h-48 object-cover"
-      />
-      <div className="p-4">
+    <div className="p-0 overflow-hidden">
+      <div className="relative">
+        <img
+          src={park.image_url}
+          alt={park.name}
+          className="w-full h-36 md:h-48 object-cover"
+        />
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={onClose}
+          className="absolute top-2 right-2 bg-white/80 hover:bg-white rounded-full shadow-md w-8 h-8 p-0"
+        >
+          <X className="h-4 w-4" />
+        </Button>
+      </div>
+      
+      <div className="p-3 md:p-4">
         <div className="flex justify-between items-start">
-          <h3 className="font-montserrat font-bold text-xl text-primary">{park.name}</h3>
-          <button className="text-secondary hover:text-primary transition-colors">
-            <i className="bx bx-bookmark text-2xl"></i>
-          </button>
+          <h3 className="font-semibold text-lg md:text-xl text-foreground">{park.name}</h3>
         </div>
         
-        <div className="flex items-center mt-1 mb-3">
-          <i className="bx bxs-map text-secondary mr-1"></i>
-          <span className="text-sm text-gray-600">{park.state}</span>
-          <span className="mx-2 text-gray-400">|</span>
+        <div className="flex items-center mt-1 mb-3 text-muted-foreground">
           <div className="flex items-center">
-            <i className="bx bxs-star text-yellow-500 mr-1"></i>
-            <span className="text-sm font-semibold">{park.rating}</span>
-            <span className="text-xs text-gray-500 ml-1">({park.review_count.toLocaleString()} reviews)</span>
+            <MapPin className="h-3 w-3 mr-1" />
+            <span className="text-xs">{park.state}</span>
+          </div>
+          <span className="mx-2 text-gray-300">|</span>
+          <div className="flex items-center">
+            <Star className="h-3 w-3 fill-yellow-500 text-yellow-500 mr-1" />
+            <span className="text-xs font-medium">{park.rating}</span>
+            <span className="text-xs ml-1">({park.review_count.toLocaleString()})</span>
           </div>
         </div>
         
-        <div className="mb-4">
-          <h4 className="font-montserrat font-semibold text-sm mb-2">{selectedMonth} Highlights</h4>
-          <div className="flex flex-wrap gap-2">
-            {park.highlights.map((highlight, index) => (
-              <Badge key={index} variant="green" className="rounded-full">
-                {highlight}
-              </Badge>
-            ))}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          {/* Left column */}
+          <div>
+            <h4 className="font-medium text-xs uppercase tracking-wide text-muted-foreground mb-2">Highlights</h4>
+            <div className="flex flex-wrap gap-1">
+              {park.highlights.slice(0, 4).map((highlight, index) => (
+                <Badge key={index} variant="outline" className="text-[10px] h-5 rounded-full font-normal">
+                  {highlight}
+                </Badge>
+              ))}
+              {park.highlights.length > 4 && (
+                <Badge variant="outline" className="text-[10px] h-5 rounded-full font-normal">
+                  +{park.highlights.length - 4} more
+                </Badge>
+              )}
+            </div>
+          </div>
+          
+          {/* Right column - Weather */}
+          <div>
+            <h4 className="font-medium text-xs uppercase tracking-wide text-muted-foreground mb-2">{selectedMonth} Weather</h4>
+            <div className="grid grid-cols-3 gap-1 text-xs">
+              <div className="flex flex-col items-center">
+                <SunMedium className="h-3 w-3 text-yellow-500 mb-1" />
+                <span>{weather.high}</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <Moon className="h-3 w-3 text-blue-500 mb-1" />
+                <span>{weather.low}</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <CloudRain className="h-3 w-3 text-blue-400 mb-1" />
+                <span>{weather.precipitation}</span>
+              </div>
+            </div>
           </div>
         </div>
         
+        {/* Activities */}
         <div className="mb-4">
-          <h4 className="font-montserrat font-semibold text-sm mb-2">Weather in {selectedMonth}</h4>
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center">
-              <i className="bx bx-sun text-yellow-500 mr-1"></i>
-              <span>Avg High: {weather.high}</span>
-            </div>
-            <div className="flex items-center">
-              <i className="bx bx-moon text-blue-500 mr-1"></i>
-              <span>Avg Low: {weather.low}</span>
-            </div>
-            <div className="flex items-center">
-              <i className="bx bx-cloud-rain text-blue-400 mr-1"></i>
-              <span>Precip: {weather.precipitation}</span>
-            </div>
-          </div>
-        </div>
-        
-        <div className="mb-4">
-          <h4 className="font-montserrat font-semibold text-sm mb-2">Popular Activities</h4>
-          <div className="grid grid-cols-3 gap-2">
-            {park.activities.slice(0, 6).map((activity) => (
-              <div key={activity} className="flex flex-col items-center bg-lightAccent p-2 rounded">
-                <i className={`bx ${getActivityIcon(activity)} text-2xl text-secondary`}></i>
-                <span className="text-xs mt-1">{activity}</span>
+          <h4 className="font-medium text-xs uppercase tracking-wide text-muted-foreground mb-2">Activities</h4>
+          <div className="grid grid-cols-4 gap-1.5">
+            {park.activities.slice(0, 8).map((activity) => (
+              <div key={activity} className="flex flex-col items-center p-1.5 rounded bg-muted">
+                <i className={`bx ${getActivityIcon(activity)} text-lg text-muted-foreground`}></i>
+                <span className="text-[9px] mt-1 text-center leading-tight">{activity.split(' ')[0]}</span>
               </div>
             ))}
           </div>
         </div>
         
+        {/* AI Insights - collapsible for mobile */}
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <h4 className="font-montserrat font-semibold text-sm">AI Insights for {selectedMonth}</h4>
-            <div className="flex items-center text-xs text-secondary">
-              <i className="bx bx-bot mr-1"></i>
-              <span>Powered by AI</span>
-            </div>
+            <h4 className="font-medium text-xs uppercase tracking-wide text-muted-foreground">AI Recommendation</h4>
           </div>
-          <div className="bg-secondary bg-opacity-10 p-3 rounded-lg text-sm min-h-[100px] border-l-4 border-primary">
+          <div className="bg-background rounded-lg text-xs p-2.5 border border-border shadow-sm min-h-12 max-h-32 overflow-y-auto no-scrollbar">
             {isLoadingRecommendation ? (
-              <div className="flex items-center justify-center h-full">
-                <div className="flex items-center gap-2">
-                  <i className="bx bx-loader-alt animate-spin text-secondary"></i>
-                  <span>Creating personalized insights...</span>
-                </div>
+              <div className="flex items-center justify-center py-4">
+                <Loader2 className="h-4 w-4 animate-spin mr-2 text-primary" />
+                <span className="text-muted-foreground text-xs">Creating personalized insights...</span>
               </div>
             ) : (
-              <div className="font-opensans leading-relaxed whitespace-pre-line">
-                {aiRecommendation || 
-                 "Select a park and use the AI Travel Advisor to get personalized recommendations for your visit."}
+              <div className="leading-relaxed whitespace-pre-line text-muted-foreground">
+                {aiRecommendation ? (
+                  <>
+                    {showFullDescription 
+                      ? aiRecommendation 
+                      : `${aiRecommendation.substring(0, 150)}${aiRecommendation.length > 150 ? '...' : ''}`
+                    }
+                    {aiRecommendation.length > 150 && (
+                      <button 
+                        onClick={() => setShowFullDescription(!showFullDescription)}
+                        className="text-primary hover:text-primary/80 font-medium ml-1"
+                      >
+                        {showFullDescription ? 'Show less' : 'Read more'}
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  "Select a park to get personalized recommendations."
+                )}
               </div>
             )}
           </div>
         </div>
         
-        <div className="flex justify-between">
+        {/* Action buttons */}
+        <div className="flex justify-between gap-2">
           <Button
-            variant="default"
-            className="flex items-center"
+            variant="outline"
+            size="sm"
+            className="flex items-center justify-center flex-1"
             onClick={onClose}
           >
-            <i className="bx bx-info-circle mr-2"></i> More Details
+            <Info className="h-3.5 w-3.5 mr-1.5" />
+            <span className="text-xs">Details</span>
           </Button>
           <Button
-            variant="secondary" 
-            className="flex items-center"
+            variant="default" 
+            size="sm"
+            className="flex items-center justify-center flex-1"
           >
-            <i className="bx bx-calendar-plus mr-2"></i> Plan Visit
+            <CalendarPlus className="h-3.5 w-3.5 mr-1.5" />
+            <span className="text-xs">Plan Trip</span>
           </Button>
         </div>
       </div>
