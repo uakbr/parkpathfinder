@@ -156,7 +156,16 @@ export class MemStorage implements IStorage {
   
   async createParkActivity(insertActivity: InsertParkActivity): Promise<ParkActivity> {
     const id = this.currentParkActivityId++;
-    const activity: ParkActivity = { ...insertActivity, id };
+    // Ensure all required fields have non-null/undefined values
+    const activity: ParkActivity = {
+      ...insertActivity,
+      id,
+      image_url: insertActivity.image_url || null,
+      best_time_of_day: insertActivity.best_time_of_day || null,
+      difficulty: insertActivity.difficulty || "moderate",
+      tips: insertActivity.tips || null,
+      best_months: insertActivity.best_months || []
+    };
     this.parkActivities.set(id, activity);
     return activity;
   }
@@ -164,7 +173,14 @@ export class MemStorage implements IStorage {
   // Trip Planning methods
   async createTripPlan(insertPlan: InsertTripPlan): Promise<TripPlan> {
     const id = this.currentTripPlanId++;
-    const plan: TripPlan = { ...insertPlan, id };
+    // Ensure all required fields have non-null/undefined values
+    const plan: TripPlan = {
+      ...insertPlan,
+      id,
+      name: insertPlan.name || "My Trip Plan",
+      user_id: insertPlan.user_id || null,
+      preferences: insertPlan.preferences || null
+    };
     this.tripPlans.set(id, plan);
     return plan;
   }
@@ -196,14 +212,26 @@ export class MemStorage implements IStorage {
   
   async createTripDay(insertDay: InsertTripDay): Promise<TripDay> {
     const id = this.currentTripDayId++;
-    const day: TripDay = { ...insertDay, id };
+    // Ensure all required fields have non-null/undefined values
+    const day: TripDay = {
+      ...insertDay,
+      id,
+      description: insertDay.description || null
+    };
     this.tripDays.set(id, day);
     return day;
   }
   
   async createTripActivity(insertActivity: InsertTripActivity): Promise<TripActivity> {
     const id = this.currentTripActivityId++;
-    const activity: TripActivity = { ...insertActivity, id };
+    // Ensure all required fields have non-null/undefined values
+    const activity: TripActivity = {
+      ...insertActivity,
+      id,
+      start_time: insertActivity.start_time || null,
+      end_time: insertActivity.end_time || null,
+      notes: insertActivity.notes || null
+    };
     this.tripActivities.set(id, activity);
     return activity;
   }
