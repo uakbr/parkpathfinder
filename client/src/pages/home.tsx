@@ -157,22 +157,31 @@ export default function Home() {
                   onSelectPark={handleSelectPark}
                 />
                 {/* Quick month selector floating on mobile map */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-background/90 backdrop-blur-sm rounded-full shadow-lg px-4 py-1 border border-border overflow-x-auto max-w-[90%] whitespace-nowrap">
-                  <div className="flex gap-2 items-center">
-                    {monthsShortArray.map((month, index) => (
-                      <button
-                        key={month}
-                        className={cn(
-                          "text-xs py-1 px-2 rounded-full transition-colors",
-                          selectedMonth === monthsArray[index] 
-                            ? "bg-primary text-primary-foreground" 
-                            : "bg-background hover:bg-muted"
-                        )}
-                        onClick={() => handleMonthChange(monthsArray[index])}
-                      >
-                        {month}
-                      </button>
-                    ))}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-background/90 backdrop-blur-sm rounded-full shadow-lg border border-border overflow-x-auto max-w-[90%] no-scrollbar">
+                  <div className="flex overflow-x-auto items-center py-1 px-3 gap-1.5 no-scrollbar">
+                    {monthsArray.map((month, i) => {
+                      const shortName = month.substring(0, 3);
+                      const isCurrent = month === getCurrentMonth();
+                      
+                      return (
+                        <button
+                          key={month}
+                          className={cn(
+                            "text-xs py-1 px-2 rounded-full min-w-8 relative transition-colors",
+                            selectedMonth === month 
+                              ? "bg-primary text-primary-foreground font-medium" 
+                              : "bg-background hover:bg-muted",
+                            isCurrent && selectedMonth !== month && "ring-1 ring-primary/30"
+                          )}
+                          onClick={() => handleMonthChange(month)}
+                        >
+                          {isCurrent && selectedMonth !== month && (
+                            <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-primary rounded-full" />
+                          )}
+                          {shortName}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>

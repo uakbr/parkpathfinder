@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { MapContainer as LeafletMapContainer, MapContainerProps } from 'react-leaflet';
+import { Loader2 } from "lucide-react";
 
 // This is a wrapper that ensures the map only renders when data is ready
 export function LazyMapContainer({ children, ...props }: MapContainerProps & { children: ReactNode }) {
@@ -16,13 +17,10 @@ export function LazyMapContainer({ children, ...props }: MapContainerProps & { c
   
   if (!isMounted) {
     return (
-      <div 
-        className="absolute inset-0 z-0 h-full bg-gray-100 flex items-center justify-center"
-        style={{ height: "calc(100vh - 80px)" }}
-      >
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading map...</p>
+      <div className="w-full h-full flex items-center justify-center bg-muted/10">
+        <div className="text-center px-4">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2 text-primary" />
+          <p className="text-sm font-medium text-muted-foreground">Initializing map...</p>
         </div>
       </div>
     );

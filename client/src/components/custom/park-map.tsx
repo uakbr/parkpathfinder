@@ -1,9 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
-import { TileLayer, Marker, Popup, useMap, ZoomControl } from "react-leaflet";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { TileLayer, Marker, Popup, useMap, ZoomControl, AttributionControl } from "react-leaflet";
 import L from "leaflet";
 import { ParkDetail } from "./park-detail";
 import { Park } from "@/lib/types";
 import { LazyMapContainer } from "./map-container";
+import { Loader2 } from "lucide-react";
 
 // Fix for Leaflet marker icons
 // @ts-ignore
@@ -15,16 +16,22 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-// Custom park icons
+// Custom park icons - preload these images
+const parkIconImage = new Image();
+parkIconImage.src = 'https://cdn-icons-png.flaticon.com/512/5266/5266848.png';
+const selectedParkIconImage = new Image();
+selectedParkIconImage.src = 'https://cdn-icons-png.flaticon.com/512/5266/5266880.png';
+
+// Create park icons after images have loaded
 const parkIcon = new L.Icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/512/5266/5266848.png',
+  iconUrl: parkIconImage.src,
   iconSize: [25, 25],
   iconAnchor: [12, 25],
   popupAnchor: [0, -25]
 });
 
 const selectedParkIcon = new L.Icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/512/5266/5266880.png',
+  iconUrl: selectedParkIconImage.src,
   iconSize: [35, 35],
   iconAnchor: [17, 35],
   popupAnchor: [0, -35]
@@ -33,6 +40,7 @@ const selectedParkIcon = new L.Icon({
 // Default center coordinates for USA
 const DEFAULT_CENTER: [number, number] = [39.8283, -98.5795];
 const DEFAULT_ZOOM = 4;
+const MOBILE_ZOOM_ADJUST = -1; // Adjust zoom level for mobile
 
 // Helper to parse coordinates safely
 function parseCoordinates(lat: string | number | undefined, lng: string | number | undefined): [number, number] | null {
@@ -52,6 +60,11 @@ function parseCoordinates(lat: string | number | undefined, lng: string | number
   }
 }
 
+// Detect if we're on a mobile device
+function isMobileDevice() {
+  return window.innerWidth < 768;
+}
+
 // Component to fly to a marker on the map
 function FlyToMarker({ position }: { position: [number, number] }) {
   const map = useMap();
@@ -59,15 +72,66 @@ function FlyToMarker({ position }: { position: [number, number] }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       try {
-        map.flyTo(position, 8, { animate: true, duration: 1.5 });
+        // Adjust zoom level for mobile devices
+        const zoomLevel = isMobileDevice() ? 7 : 8;
+        map.flyTo(position, zoomLevel, { animate: true, duration: 1.5 });
       } catch (error) {
         console.error('Error flying to position:', error);
       }
-    }, 100);
+    }, 200);
     
     return () => clearTimeout(timer);
   }, [map, position]);
   
+  return null;
+}
+
+// Map reset control component
+function ResetMapView() {
+  const map = useMap();
+  
+  const handleResetView = useCallback(() => {
+    map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+  }, [map]);
+
+  // Create a custom control button
+  useEffect(() => {
+    // Create a custom reset button control
+    const ResetViewControl = L.Control.extend({
+      options: {
+        position: 'bottomright'
+      },
+      
+      onAdd: function() {
+        const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+        container.innerHTML = `
+          <a href="#" class="flex items-center justify-center" title="Reset map view" aria-label="Reset map view">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+            </svg>
+          </a>
+        `;
+        
+        L.DomEvent
+          .on(container, 'click', L.DomEvent.preventDefault)
+          .on(container, 'click', () => {
+            handleResetView();
+          });
+          
+        return container;
+      }
+    });
+    
+    // Add the control to the map
+    const resetControl = new ResetViewControl();
+    map.addControl(resetControl);
+    
+    // Clean up on unmount
+    return () => {
+      map.removeControl(resetControl);
+    };
+  }, [map, handleResetView]);
+
   return null;
 }
 
@@ -79,17 +143,18 @@ interface ParkMapProps {
 }
 
 export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: ParkMapProps) {
-  // Wait for data to be available
+  // State
   const [isDataReady, setIsDataReady] = useState(false);
+  const [isMapMounted, setIsMapMounted] = useState(false);
+  const [initialLoadAttempted, setInitialLoadAttempted] = useState(false);
   
   // Find the selected park
   const selectedPark = parks.find(park => park.id === selectedParkId);
   
   // Get valid coordinates for parks
   const validMarkers = useMemo(() => {
-    if (parks.length === 0) return [];
+    if (!parks || parks.length === 0) return [];
     
-    // Filter parks with valid coordinates
     const markers = [];
     
     for (const park of parks) {
@@ -115,37 +180,59 @@ export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: 
     return parseCoordinates(selectedPark.latitude, selectedPark.longitude);
   }, [selectedPark]);
   
-  // Mark data as ready once we have parks
+  // Mark data as ready once we have parks - even with 0 parks, we should proceed
   useEffect(() => {
-    if (parks.length > 0 && !isDataReady) {
+    // Ensure we attempt to load data at least once
+    if (!initialLoadAttempted) {
+      setInitialLoadAttempted(true);
+      
+      // Wait a short time for data to potentially arrive
+      const timer = setTimeout(() => {
+        setIsDataReady(true);
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+    
+    // If parks data comes in later, just update that we're ready
+    if (parks && !isDataReady) {
       setIsDataReady(true);
     }
-  }, [parks, isDataReady]);
+  }, [parks, isDataReady, initialLoadAttempted]);
   
-  // Loading state
-  if (!isDataReady) {
+  // After component mounts, mark map as mounted
+  useEffect(() => {
+    setIsMapMounted(true);
+  }, []);
+  
+  // Early fallback loading state
+  if (!isMapMounted || !isDataReady) {
     return (
-      <div className="flex-1 relative overflow-hidden h-[calc(100vh-80px)] bg-gray-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading map data...</p>
+      <div className="w-full h-full flex items-center justify-center bg-muted/30">
+        <div className="text-center p-4">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2 text-primary" />
+          <p className="text-sm font-medium text-muted-foreground">Loading map...</p>
         </div>
       </div>
     );
   }
   
+  // Determine zoom level based on device
+  const initialZoom = isMobileDevice() ? DEFAULT_ZOOM + MOBILE_ZOOM_ADJUST : DEFAULT_ZOOM;
+  
   return (
-    <div className="flex-1 relative overflow-hidden h-[calc(100vh-80px)]">
+    <div className="w-full h-full relative">
       <LazyMapContainer
         center={DEFAULT_CENTER}
-        zoom={DEFAULT_ZOOM}
-        className="absolute inset-0 z-0 h-full"
-        style={{ height: "calc(100vh - 80px)" }}
+        zoom={initialZoom}
+        className="w-full h-full"
         zoomControl={false}
+        attributionControl={false}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          maxZoom={18}
         />
         
         {/* Only render markers with valid coordinates */}
@@ -159,7 +246,7 @@ export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: 
             }}
           >
             <Popup>
-              <div className="text-sm font-medium">
+              <div className="text-sm font-medium p-1">
                 <p className="font-bold">{marker.name}</p>
                 <p className="text-xs">{marker.state}</p>
                 <p className="text-xs">Rating: {marker.rating}/5</p>
@@ -171,12 +258,20 @@ export function ParkMap({ parks, selectedParkId, selectedMonth, onSelectPark }: 
         {/* Only fly to selected position if coordinates are valid */}
         {selectedPosition && <FlyToMarker position={selectedPosition} />}
         
-        <ZoomControl position="topright" />
+        {/* Add reset view control */}
+        <ResetMapView />
+        
+        {/* Position zoom control in the bottom right for mobile accessibility */}
+        <ZoomControl position="bottomright" />
+        
+        {/* Move attribution to bottom left and make it more compact */}
+        <AttributionControl position="bottomleft" prefix={false} />
       </LazyMapContainer>
       
       {/* Selected Park Detail Card */}
       {selectedPark && (
-        <div className="absolute bottom-4 left-4 right-4 md:w-2/3 lg:w-1/2 xl:w-1/3 md:left-4 md:right-auto bg-white rounded-lg shadow-lg border border-accent overflow-hidden z-10">
+        <div className="absolute bottom-4 left-2 right-2 md:w-2/3 lg:w-1/2 xl:w-1/3 md:left-4 md:right-auto 
+                         bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-muted overflow-hidden z-10">
           <ParkDetail 
             park={selectedPark}
             selectedMonth={selectedMonth}
