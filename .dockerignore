@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+dist
+.git
+.github
+.DS_Store
+attached_assets
+*.tar.gz
+server/public
+**/*.test.ts
+**/*.test.tsx
+coverage
+tmp
+

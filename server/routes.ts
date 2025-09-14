@@ -13,6 +13,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // put application routes here
   // prefix all routes with /api
 
+  // Health check
+  app.get("/api/health", (_req, res) => {
+    res.json({ status: "ok", uptime: process.uptime(), env: process.env.NODE_ENV || "development" });
+  });
+
   // Get all parks
   app.get("/api/parks", async (req, res) => {
     try {
