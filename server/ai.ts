@@ -32,10 +32,12 @@ interface ParkData extends NationalPark {
   monthly_notes: Record<string, string>;
 }
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazily initialize OpenAI client to avoid requiring API key in tests/CI
+function getOpenAI(): OpenAI | null {
+  const key = process.env.OPENAI_API_KEY;
+  if (!key) return null;
+  return new OpenAI({ apiKey: key });
+}
 
 // Function to generate AI recommendations for a park visit
 export async function generateAIRecommendation(
@@ -46,6 +48,7 @@ export async function generateAIRecommendation(
   // Cast to the proper type with arrays
   const park = parkData as unknown as ParkData;
   try {
+    const openai = getOpenAI();
     console.log(`Generating AI recommendation for ${park.name} in ${month} with preferences: ${userPreferences}`);
     
     // Format the monthly weather data for better readability
@@ -84,29 +87,33 @@ Please provide a personalized recommendation for their visit to ${park.name} in 
 Format your response in a conversational, friendly tone. Break up text into small paragraphs. Use about 200-250 words total.
 `;
 
-    console.log("Sending request to OpenAI API");
-    
-    // Call the OpenAI API
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-      messages: [
-        {
-          role: "system",
-          content: "You are an expert national parks guide who gives personalized, practical advice to visitors. You are concise, friendly, and knowledgeable about outdoor activities, wildlife, and seasonal conditions at US National Parks.",
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-      max_tokens: 500,
-      temperature: 0.7,
-    });
+    if (openai) {
+      console.log("Sending request to OpenAI API");
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: "You are an expert national parks guide who gives personalized, practical advice to visitors. You are concise, friendly, and knowledgeable about outdoor activities, wildlife, and seasonal conditions at US National Parks.",
+          },
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        max_tokens: 500,
+        temperature: 0.7,
+      });
+      console.log("Received response from OpenAI API");
+      return response.choices[0].message.content || "Sorry, I couldn't generate a recommendation at this time.";
+    }
 
-    console.log("Received response from OpenAI API");
-    
-    // Return the AI's response
-    return response.choices[0].message.content || "Sorry, I couldn't generate a recommendation at this time.";
+    // Fallback when OpenAI is not configured
+    return [
+      `Visiting ${park.name} in ${month} is a great choice. With ${weatherInfo.toLowerCase()} and highlights like ${(Array.isArray(park.highlights) ? park.highlights.slice(0,3).join(", ") : park.description).toLowerCase()}, you’ll have plenty to enjoy.`,
+      `Based on your interests (${userPreferences}), start with a morning stop at a marquee viewpoint, then a mid‑day trail that fits your comfort level, and finish with a low‑stress scenic spot for sunset.`,
+      `Practical tips: arrive early for parking, carry water and layers, and check trail conditions at the visitor center. ${monthlyNotes}`,
+    ].join("\n\n");
   } catch (error) {
     console.error("Error generating AI recommendation:", error);
     if (error instanceof Error) {
@@ -127,6 +134,7 @@ export async function generateTripItinerary(
   // Cast to the proper type with arrays
   const park = parkData as unknown as ParkData;
   try {
+    const openai = getOpenAI();
     console.log(`Generating ${days}-day trip itinerary for ${park.name} in ${month}`);
     
     // Format the monthly weather data for better readability
@@ -196,37 +204,35 @@ Structure your response as valid JSON with this exact format:
 Make sure your response is ONLY the valid JSON without any other text.
 `;
 
-    console.log("Sending itinerary request to OpenAI API");
-    
-    // Call the OpenAI API with JSON response format
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-      messages: [
-        {
-          role: "system",
-          content: "You are an expert national parks trip planner who creates detailed itineraries. You always respond with valid JSON that exactly matches the requested format.",
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-      response_format: { type: "json_object" },
-      max_tokens: 2000,
-      temperature: 0.7,
-    });
-
-    console.log("Received itinerary response from OpenAI API");
-    
-    // Parse the response as JSON
-    const content = response.choices[0].message.content || "{}";
-    const parsedResponse = JSON.parse(content);
-    
-    if (!parsedResponse.itinerary || !Array.isArray(parsedResponse.itinerary)) {
-      throw new Error("Invalid itinerary format received from AI");
+    if (openai) {
+      console.log("Sending itinerary request to OpenAI API");
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: "You are an expert national parks trip planner who creates detailed itineraries. You always respond with valid JSON that exactly matches the requested format.",
+          },
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        response_format: { type: "json_object" },
+        max_tokens: 2000,
+        temperature: 0.7,
+      });
+      console.log("Received itinerary response from OpenAI API");
+      const content = response.choices[0].message.content || "{}";
+      const parsedResponse = JSON.parse(content);
+      if (!parsedResponse.itinerary || !Array.isArray(parsedResponse.itinerary)) {
+        throw new Error("Invalid itinerary format received from AI");
+      }
+      return parsedResponse.itinerary as ItineraryDay[];
     }
-    
-    return parsedResponse.itinerary as ItineraryDay[];
+
+    // Fallback when OpenAI is not configured
+    return generateFallbackItinerary(days, parkActivities);
   } catch (error) {
     console.error("Error generating trip itinerary:", error);
     if (error instanceof Error) {
