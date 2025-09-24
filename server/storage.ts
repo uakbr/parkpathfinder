@@ -352,6 +352,121 @@ export class MemStorage implements IStorage {
         monthly_notes: {
           may: "May showcases beautiful spring foliage and active wildlife throughout the park."
         }
+      },
+      {
+        name: "Yellowstone National Park",
+        state: "Wyoming/Montana/Idaho",
+        description: "Yellowstone National Park is a nearly 3,500-sq.-mile wilderness recreation area atop a volcanic hotspot. Mostly in Wyoming, the park spreads into parts of Montana and Idaho too. Yellowstone features dramatic canyons, alpine rivers, lush forests, hot springs and gushing geysers – including its most famous, Old Faithful.",
+        image_url: "https://images.unsplash.com/photo-1586228550252-b1b1e7e8b0d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "44.4280",
+        longitude: "-110.5885",
+        rating: "4.8",
+        review_count: 4521,
+        activities: ["Hiking", "Wildlife Viewing", "Photography", "Camping", "Fishing", "Scenic Drives"],
+        weather: {
+          may: {
+            high: "60°F",
+            low: "30°F",
+            precipitation: "2.1\""
+          }
+        },
+        highlights: ["Old Faithful Geyser", "Grand Prismatic Spring", "Yellowstone Lake", "Grand Canyon of Yellowstone", "Wildlife Watching"],
+        best_months: ["May", "June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May is an excellent time to visit with spring wildlife activity and fewer crowds, though some higher elevation areas may still have snow."
+        }
+      },
+      {
+        name: "Glacier National Park",
+        state: "Montana",
+        description: "Glacier National Park is a 1,583-sq.-mile wilderness area in Montana's Rocky Mountains, with glacier-carved peaks and valleys running to the Canadian border. It's crossed by the mountainous Going-to-the-Sun Road. Among more than 700 miles of trails are routes to alpine meadows, crystal-clear lakes and glacier viewpoints.",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "48.7596",
+        longitude: "-113.7870",
+        rating: "4.9",
+        review_count: 2134,
+        activities: ["Hiking", "Photography", "Wildlife Viewing", "Scenic Drives", "Camping", "Fishing"],
+        weather: {
+          may: {
+            high: "55°F",
+            low: "32°F",
+            precipitation: "2.8\""
+          }
+        },
+        highlights: ["Going-to-the-Sun Road", "Logan Pass", "Lake McDonald", "Glacier Views", "Alpine Lakes"],
+        best_months: ["June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May can still have snow at higher elevations, but lower valleys offer beautiful spring hiking opportunities."
+        }
+      },
+      {
+        name: "Bryce Canyon National Park",
+        state: "Utah",
+        description: "Bryce Canyon National Park is a sprawling reserve in southern Utah, known for crimson-colored hoodoos, which are spire-shaped rock formations. The park's main area is Bryce Canyon, which despite its name, is not a canyon, but a collection of natural amphitheaters along the eastern side of the Paunsaugunt Plateau.",
+        image_url: "https://images.unsplash.com/photo-1501436513145-30f24e19fcc4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "37.5930",
+        longitude: "-112.1871",
+        rating: "4.7",
+        review_count: 1876,
+        activities: ["Hiking", "Photography", "Stargazing", "Scenic Views", "Rock Formations", "Camping"],
+        weather: {
+          may: {
+            high: "65°F",
+            low: "35°F",
+            precipitation: "1.2\""
+          }
+        },
+        highlights: ["Bryce Amphitheater", "Hoodoo Formations", "Sunrise Point", "Sunset Point", "Thor's Hammer"],
+        best_months: ["April", "May", "June", "September", "October"],
+        monthly_notes: {
+          may: "May offers pleasant daytime temperatures and excellent conditions for hiking among the hoodoos."
+        }
+      },
+      {
+        name: "Joshua Tree National Park",
+        state: "California",
+        description: "Joshua Tree National Park is a vast protected area in southern California. It's characterized by rugged rock formations and stark desert landscapes. Named for the region's twisted, bristled Joshua trees, the park straddles the cactus-dotted Colorado Desert and the Mojave Desert, which is higher and cooler.",
+        image_url: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "33.8734",
+        longitude: "-115.9010",
+        rating: "4.6",
+        review_count: 2198,
+        activities: ["Rock Climbing", "Hiking", "Photography", "Stargazing", "Rock Formations", "Camping"],
+        weather: {
+          may: {
+            high: "85°F",
+            low: "60°F",
+            precipitation: "0.2\""
+          }
+        },
+        highlights: ["Joshua Trees", "Skull Rock", "Arch Rock", "Keys View", "Cholla Cactus Garden"],
+        best_months: ["March", "April", "May", "October", "November"],
+        monthly_notes: {
+          may: "May features warm but not extreme temperatures, perfect for desert hiking and rock climbing."
+        }
+      },
+      {
+        name: "Acadia National Park",
+        state: "Maine",
+        description: "Acadia National Park is a 47,000-acre Atlantic coast recreation area primarily on Maine's Mount Desert Island. Its landscape is marked by woodland, rocky beaches and glacier-scoured granite peaks such as Cadillac Mountain, the highest point on the United States' East Coast.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "44.3386",
+        longitude: "-68.2733",
+        rating: "4.8",
+        review_count: 3012,
+        activities: ["Hiking", "Photography", "Scenic Drives", "Wildlife Viewing", "Biking", "Fishing"],
+        weather: {
+          may: {
+            high: "65°F",
+            low: "45°F",
+            precipitation: "3.1\""
+          }
+        },
+        highlights: ["Cadillac Mountain", "Jordan Pond", "Thunder Hole", "Bar Harbor", "Carriage Roads"],
+        best_months: ["May", "June", "July", "August", "September", "October"],
+        monthly_notes: {
+          may: "May brings spring blooms and comfortable hiking weather, with fewer crowds than peak summer months."
+        }
       }
     ];
     
@@ -579,6 +694,151 @@ export class MemStorage implements IStorage {
         best_time_of_day: "night",
         best_months: ["May", "June", "July", "August", "September"],
         tips: "Bring a red flashlight to preserve night vision, and dress warmly as desert temperatures drop at night."
+      },
+      // Yellowstone Activities (Park ID 6)
+      {
+        park_id: 6,
+        name: "Old Faithful Geyser",
+        description: "Watch the world's most famous geyser erupt approximately every 90 minutes.",
+        category: "viewpoint",
+        duration_minutes: 120,
+        difficulty: "easy",
+        latitude: "44.4605",
+        longitude: "-110.8281",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "any",
+        best_months: ["May", "June", "July", "August", "September"],
+        tips: "Check eruption predictions at the visitor center. Arrive early for the best viewing spots."
+      },
+      {
+        park_id: 6,
+        name: "Grand Prismatic Spring",
+        description: "The largest hot spring in the United States, famous for its rainbow colors.",
+        category: "viewpoint",
+        duration_minutes: 90,
+        difficulty: "easy",
+        latitude: "44.5252",
+        longitude: "-110.8385",
+        image_url: "https://images.unsplash.com/photo-1586228550252-b1b1e7e8b0d7",
+        best_time_of_day: "afternoon",
+        best_months: ["June", "July", "August", "September"],
+        tips: "The boardwalk can be slippery when wet. Best colors visible on sunny days."
+      },
+      // Glacier Activities (Park ID 7)
+      {
+        park_id: 7,
+        name: "Going-to-the-Sun Road",
+        description: "A spectacular 50-mile mountain road crossing the Continental Divide.",
+        category: "scenic drive",
+        duration_minutes: 180,
+        difficulty: "easy",
+        latitude: "48.7596",
+        longitude: "-113.7870",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "morning",
+        best_months: ["June", "July", "August", "September"],
+        tips: "Road typically opens fully by late June. Start early to avoid crowds and afternoon thunderstorms."
+      },
+      {
+        park_id: 7,
+        name: "Hidden Lake Overlook",
+        description: "A moderately easy hike to a stunning overlook with glacier and lake views.",
+        category: "hiking",
+        duration_minutes: 180,
+        difficulty: "moderate",
+        latitude: "48.6951",
+        longitude: "-113.7184",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "morning",
+        best_months: ["July", "August", "September"],
+        tips: "Trail can be snow-covered until mid-July. Watch for mountain goats and bears."
+      },
+      // Bryce Canyon Activities (Park ID 8)
+      {
+        park_id: 8,
+        name: "Sunrise Point",
+        description: "One of the most popular viewpoints for watching sunrise over the hoodoos.",
+        category: "viewpoint",
+        duration_minutes: 60,
+        difficulty: "easy",
+        latitude: "37.6261",
+        longitude: "-112.1652",
+        image_url: "https://images.unsplash.com/photo-1501436513145-30f24e19fcc4",
+        best_time_of_day: "early morning",
+        best_months: ["April", "May", "June", "September", "October"],
+        tips: "Arrive 30 minutes before sunrise for the best spot. Bring warm clothes as it can be cold in early morning."
+      },
+      {
+        park_id: 8,
+        name: "Navajo Loop Trail",
+        description: "Descend into Bryce Canyon among the famous hoodoo rock formations.",
+        category: "hiking",
+        duration_minutes: 90,
+        difficulty: "moderate",
+        latitude: "37.6209",
+        longitude: "-112.1660",
+        image_url: "https://images.unsplash.com/photo-1501436513145-30f24e19fcc4",
+        best_time_of_day: "morning",
+        best_months: ["May", "June", "July", "August", "September"],
+        tips: "The trail can be icy in winter and early spring. Wear good hiking boots with traction."
+      },
+      // Joshua Tree Activities (Park ID 9)
+      {
+        park_id: 9,
+        name: "Skull Rock",
+        description: "A large boulder formation that resembles a skull, easily accessible from the road.",
+        category: "viewpoint",
+        duration_minutes: 30,
+        difficulty: "easy",
+        latitude: "33.9285",
+        longitude: "-116.1092",
+        image_url: "https://images.unsplash.com/photo-1545558014-8692077e9b5c",
+        best_time_of_day: "afternoon",
+        best_months: ["March", "April", "May", "October", "November"],
+        tips: "Great for families with children. Perfect spot for photos and a quick desert experience."
+      },
+      {
+        park_id: 9,
+        name: "Keys View",
+        description: "Panoramic view of the Coachella Valley and San Andreas Fault from 5,185 feet.",
+        category: "viewpoint",
+        duration_minutes: 45,
+        difficulty: "easy",
+        latitude: "33.9418",
+        longitude: "-116.1795",
+        image_url: "https://images.unsplash.com/photo-1545558014-8692077e9b5c",
+        best_time_of_day: "sunrise",
+        best_months: ["All year"],
+        tips: "On clear days, you can see the Salton Sea. Best visibility in winter months."
+      },
+      // Acadia Activities (Park ID 10)
+      {
+        park_id: 10,
+        name: "Cadillac Mountain Summit",
+        description: "The highest point on the U.S. East Coast, offering 360-degree views.",
+        category: "viewpoint",
+        duration_minutes: 60,
+        difficulty: "easy",
+        latitude: "44.3533",
+        longitude: "-68.2254",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "sunrise",
+        best_months: ["May", "June", "July", "August", "September", "October"],
+        tips: "First place to see sunrise in the U.S. from October to March. Make reservations during peak season."
+      },
+      {
+        park_id: 10,
+        name: "Jordan Pond Path",
+        description: "A peaceful carriage road loop around crystal-clear Jordan Pond with mountain views.",
+        category: "hiking",
+        duration_minutes: 120,
+        difficulty: "easy",
+        latitude: "44.3227",
+        longitude: "-68.2514",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "morning",
+        best_months: ["May", "June", "July", "August", "September", "October"],
+        tips: "Stop at Jordan Pond House for famous popovers. Path is suitable for all ages."
       }
     ];
     
