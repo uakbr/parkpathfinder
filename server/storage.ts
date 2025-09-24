@@ -51,9 +51,16 @@ export interface IStorage {
   getTripActivitiesByDayId(dayId: number): Promise<(TripActivity & ParkActivity)[]>;
   createTripDay(day: InsertTripDay): Promise<TripDay>;
   createTripActivity(activity: InsertTripActivity): Promise<TripActivity>;
+  
+  // Cleanup methods for rollback support
+  deleteTripDaysByTripId(tripId: number): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
+  // Memory limits to prevent resource exhaustion
+  private static readonly MAX_CACHE_SIZE = 1000;
+  private static readonly MAX_TRIP_PLANS = 10000;
+  
   private users: Map<number, User>;
   private parks: Map<number, NationalPark>;
   private aiRecommendations: Map<string, AiRecommendation>;
@@ -170,6 +177,13 @@ export class MemStorage implements IStorage {
   }
   
   async createAiRecommendation(insertRecommendation: InsertAiRecommendation): Promise<AiRecommendation> {
+    // Prevent memory exhaustion by limiting cache size
+    if (this.aiRecommendations.size >= MemStorage.MAX_CACHE_SIZE) {
+      // Remove oldest entries (simple FIFO eviction)
+      const keysToDelete = Array.from(this.aiRecommendations.keys()).slice(0, Math.floor(MemStorage.MAX_CACHE_SIZE * 0.1));
+      keysToDelete.forEach(key => this.aiRecommendations.delete(key));
+    }
+    
     const id = this.getNextAiRecommendationId();
     const recommendation: AiRecommendation = { ...insertRecommendation, id };
     
@@ -208,6 +222,11 @@ export class MemStorage implements IStorage {
   
   // Trip Planning methods
   async createTripPlan(insertPlan: InsertTripPlan): Promise<TripPlan> {
+    // Prevent memory exhaustion by limiting trip plans
+    if (this.tripPlans.size >= MemStorage.MAX_TRIP_PLANS) {
+      throw new Error("Maximum number of trip plans reached. Please try again later.");
+    }
+    
     const id = this.getNextTripPlanId();
     // Ensure all required fields have non-null/undefined values
     const plan: TripPlan = {
@@ -270,6 +289,25 @@ export class MemStorage implements IStorage {
     };
     this.tripActivities.set(id, activity);
     return activity;
+  }
+  
+  // Cleanup methods for rollback support
+  async deleteTripDaysByTripId(tripId: number): Promise<void> {
+    // Get all trip days for this trip
+    const tripDays = Array.from(this.tripDays.values()).filter(day => day.trip_id === tripId);
+    
+    // Delete all associated activities first
+    for (const day of tripDays) {
+      const activities = Array.from(this.tripActivities.values()).filter(activity => activity.trip_day_id === day.id);
+      for (const activity of activities) {
+        this.tripActivities.delete(activity.id);
+      }
+    }
+    
+    // Delete the trip days
+    for (const day of tripDays) {
+      this.tripDays.delete(day.id);
+    }
   }
   
   private initializeParkData() {

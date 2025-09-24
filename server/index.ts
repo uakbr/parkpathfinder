@@ -4,8 +4,10 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
+// Add security middleware for resource protection
+app.use(express.json({ limit: '1mb' })); // Limit JSON payloads to 1MB
+app.use(express.urlencoded({ extended: false, limit: '1mb' })); // Limit URL-encoded payloads
 
   app.use((req, res, next) => {
     const start = Date.now();
