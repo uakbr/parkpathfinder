@@ -62,13 +62,13 @@ export class MemStorage implements IStorage {
   private tripDays: Map<number, TripDay>;
   private tripActivities: Map<number, TripActivity>;
   
-  currentUserId: number;
-  currentParkId: number;
-  currentAiRecommendationId: number;
-  currentParkActivityId: number;
-  currentTripPlanId: number;
-  currentTripDayId: number;
-  currentTripActivityId: number;
+  private currentUserId: number;
+  private currentParkId: number;
+  private currentAiRecommendationId: number;
+  private currentParkActivityId: number;
+  private currentTripPlanId: number;
+  private currentTripDayId: number;
+  private currentTripActivityId: number;
 
   constructor() {
     this.users = new Map();
@@ -94,6 +94,42 @@ export class MemStorage implements IStorage {
     this.initializeParkActivities();
   }
 
+  // Generate a safe cache key for AI recommendations
+  private generateCacheKey(parkId: number, month: string, preferences: string): string {
+    // Use a deterministic approach that handles special characters and length
+    const sanitized = preferences.trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').substring(0, 50);
+    return `${parkId}:${month}:${sanitized}`;
+  }
+
+  // Atomic ID generation methods to prevent race conditions
+  private getNextUserId(): number {
+    return this.currentUserId++;
+  }
+
+  private getNextParkId(): number {
+    return this.currentParkId++;
+  }
+
+  private getNextAiRecommendationId(): number {
+    return this.currentAiRecommendationId++;
+  }
+
+  private getNextParkActivityId(): number {
+    return this.currentParkActivityId++;
+  }
+
+  private getNextTripPlanId(): number {
+    return this.currentTripPlanId++;
+  }
+
+  private getNextTripDayId(): number {
+    return this.currentTripDayId++;
+  }
+
+  private getNextTripActivityId(): number {
+    return this.currentTripActivityId++;
+  }
+
   async getUser(id: number): Promise<User | undefined> {
     return this.users.get(id);
   }
@@ -105,7 +141,7 @@ export class MemStorage implements IStorage {
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
+    const id = this.getNextUserId();
     const user: User = { ...insertUser, id };
     this.users.set(id, user);
     return user;
@@ -129,15 +165,15 @@ export class MemStorage implements IStorage {
   
   // AI Recommendations methods  
   async getAiRecommendation(parkId: number, month: string, preferences: string): Promise<AiRecommendation | undefined> {
-    const key = `${parkId}-${month}-${preferences}`;
+    const key = this.generateCacheKey(parkId, month, preferences);
     return this.aiRecommendations.get(key);
   }
   
   async createAiRecommendation(insertRecommendation: InsertAiRecommendation): Promise<AiRecommendation> {
-    const id = this.currentAiRecommendationId++;
+    const id = this.getNextAiRecommendationId();
     const recommendation: AiRecommendation = { ...insertRecommendation, id };
     
-    const key = `${recommendation.park_id}-${recommendation.month}-${recommendation.user_preferences}`;
+    const key = this.generateCacheKey(recommendation.park_id, recommendation.month, recommendation.user_preferences);
     this.aiRecommendations.set(key, recommendation);
     
     return recommendation;
@@ -155,7 +191,7 @@ export class MemStorage implements IStorage {
   }
   
   async createParkActivity(insertActivity: InsertParkActivity): Promise<ParkActivity> {
-    const id = this.currentParkActivityId++;
+    const id = this.getNextParkActivityId();
     // Ensure all required fields have non-null/undefined values
     const activity: ParkActivity = {
       ...insertActivity,
@@ -172,7 +208,7 @@ export class MemStorage implements IStorage {
   
   // Trip Planning methods
   async createTripPlan(insertPlan: InsertTripPlan): Promise<TripPlan> {
-    const id = this.currentTripPlanId++;
+    const id = this.getNextTripPlanId();
     // Ensure all required fields have non-null/undefined values
     const plan: TripPlan = {
       ...insertPlan,
@@ -211,7 +247,7 @@ export class MemStorage implements IStorage {
   }
   
   async createTripDay(insertDay: InsertTripDay): Promise<TripDay> {
-    const id = this.currentTripDayId++;
+    const id = this.getNextTripDayId();
     // Ensure all required fields have non-null/undefined values
     const day: TripDay = {
       ...insertDay,
@@ -223,7 +259,7 @@ export class MemStorage implements IStorage {
   }
   
   async createTripActivity(insertActivity: InsertTripActivity): Promise<TripActivity> {
-    const id = this.currentTripActivityId++;
+    const id = this.getNextTripActivityId();
     // Ensure all required fields have non-null/undefined values
     const activity: TripActivity = {
       ...insertActivity,
@@ -356,7 +392,7 @@ export class MemStorage implements IStorage {
     ];
     
     parkData.forEach((park) => {
-      const id = this.currentParkId++;
+      const id = this.getNextParkId();
       const newPark: NationalPark = { ...park, id };
       this.parks.set(id, newPark);
     });

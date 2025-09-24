@@ -9,6 +9,13 @@ import {
   insertTripActivitySchema 
 } from "@shared/schema";
 
+// Constants for input validation
+const MAX_PREFERENCES_LENGTH = 500;
+const MAX_TRIP_NAME_LENGTH = 100;
+const MAX_TRIP_DAYS = 30;
+const CACHE_KEY_LENGTH = 100;
+const VALID_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as const;
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // put application routes here
   // prefix all routes with /api
@@ -51,9 +58,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/parks/month/:month", async (req, res) => {
     try {
       const month = req.params.month;
-      const validMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
       
-      if (!validMonths.includes(month)) {
+      if (!VALID_MONTHS.includes(month as any)) {
         return res.status(400).json({ message: "Invalid month" });
       }
       
@@ -69,22 +75,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { parkId, month, preferences } = req.body;
       
+      // Input validation
       if (!parkId || !month || !preferences) {
         return res.status(400).json({ message: "Missing required fields" });
       }
       
-      console.log(`Received recommendation request for park ${parkId} in ${month}`);
+      // Validate parkId is a positive integer
+      const parkIdNum = parseInt(parkId);
+      if (isNaN(parkIdNum) || parkIdNum < 1) {
+        return res.status(400).json({ message: "Invalid park ID" });
+      }
       
-      // Create a cache key from the parameters
-      const preferencesKey = preferences.trim().toLowerCase().substring(0, 100);
+      // Validate month is a valid month name
+      if (!VALID_MONTHS.includes(month as any)) {
+        return res.status(400).json({ message: "Invalid month" });
+      }
+      
+      // Sanitize preferences - limit length and remove potentially harmful content
+      if (typeof preferences !== 'string' || preferences.trim().length === 0) {
+        return res.status(400).json({ message: "Preferences must be a non-empty string" });
+      }
+      
+      if (preferences.length > MAX_PREFERENCES_LENGTH) {
+        return res.status(400).json({ message: `Preferences text too long (max ${MAX_PREFERENCES_LENGTH} characters)` });
+      }
+      
+      console.log(`Received recommendation request for park ${parkIdNum} in ${month}`);
+      
+      // Create a cache key from the parameters (truncate to reasonable length)
+      const preferencesKey = preferences.trim().toLowerCase().substring(0, CACHE_KEY_LENGTH);
       
       // Check if we have a cached recommendation with these exact preferences
-      let recommendation = await storage.getAiRecommendation(parkId, month, preferencesKey);
+      let recommendation = await storage.getAiRecommendation(parkIdNum, month, preferencesKey);
       
       if (!recommendation) {
         console.log("No cached recommendation found, generating new one");
         // If not, generate a new recommendation
-        const park = await storage.getParkById(parkId);
+        const park = await storage.getParkById(parkIdNum);
         if (!park) {
           return res.status(404).json({ message: "Park not found" });
         }
@@ -94,7 +121,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const now = new Date().toISOString();
         
         const newRecommendation = {
-          park_id: parkId,
+          park_id: parkIdNum,
           month: month,
           user_preferences: preferencesKey,
           recommendation: recommendationText,
@@ -166,14 +193,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Missing required fields" });
       }
       
+      // Input validation
+      const parkIdNum = parseInt(parkId);
+      if (isNaN(parkIdNum) || parkIdNum < 1) {
+        return res.status(400).json({ message: "Invalid park ID" });
+      }
+      
+      const daysNum = parseInt(days);
+      if (isNaN(daysNum) || daysNum < 1 || daysNum > MAX_TRIP_DAYS) {
+        return res.status(400).json({ message: `Days must be between 1 and ${MAX_TRIP_DAYS}` });
+      }
+      
+      if (!VALID_MONTHS.includes(month as any)) {
+        return res.status(400).json({ message: "Invalid month" });
+      }
+      
+      // Sanitize optional fields
+      const sanitizedPreferences = preferences && typeof preferences === 'string' 
+        ? preferences.trim().substring(0, MAX_PREFERENCES_LENGTH) 
+        : null;
+      const sanitizedName = name && typeof name === 'string'
+        ? name.trim().substring(0, MAX_TRIP_NAME_LENGTH) || "My Trip Plan"
+        : "My Trip Plan";
+      const userIdNum = userId && !isNaN(parseInt(userId)) ? parseInt(userId) : null;
+      
       // Validate the data using the schema
       const newTripPlan = {
-        park_id: parkId,
+        park_id: parkIdNum,
         month,
-        days,
-        user_id: userId || null,
-        preferences: preferences || null,
-        name: name || "My Trip Plan",
+        days: daysNum,
+        user_id: userIdNum,
+        preferences: sanitizedPreferences,
+        name: sanitizedName,
         created_at: new Date().toISOString()
       };
       

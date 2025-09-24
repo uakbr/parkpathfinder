@@ -1,6 +1,12 @@
 import OpenAI from "openai";
 import { NationalPark, ParkActivity } from "@shared/schema";
 
+// Constants for AI configuration
+const OPENAI_TIMEOUT_MS = 30000; // 30 seconds
+const MAX_TOKENS = 500;
+const TEMPERATURE = 0.7;
+const FALLBACK_CACHE_KEY_LENGTH = 100;
+
 export interface ItineraryDay {
   day_number: number;
   title: string;
@@ -32,11 +38,30 @@ interface ParkData extends NationalPark {
   monthly_notes: Record<string, string>;
 }
 
-// Lazily initialize OpenAI client to avoid requiring API key in tests/CI
+// Safe validation helper for park data structure
+function validateParkData(parkData: NationalPark): ParkData {
+  const activities = Array.isArray(parkData.activities) ? parkData.activities : [];
+  const weather = typeof parkData.weather === 'object' && parkData.weather ? parkData.weather as Record<string, MonthlyWeather> : {};
+  const highlights = Array.isArray(parkData.highlights) ? parkData.highlights : [];
+  const bestMonths = Array.isArray(parkData.best_months) ? parkData.best_months : [];
+  const monthlyNotes = typeof parkData.monthly_notes === 'object' && parkData.monthly_notes ? parkData.monthly_notes as Record<string, string> : {};
+
+  return {
+    ...parkData,
+    activities,
+    weather,
+    highlights,
+    best_months: bestMonths,
+    monthly_notes: monthlyNotes
+  };
+}
 function getOpenAI(): OpenAI | null {
   const key = process.env.OPENAI_API_KEY;
   if (!key) return null;
-  return new OpenAI({ apiKey: key });
+  return new OpenAI({ 
+    apiKey: key,
+    timeout: OPENAI_TIMEOUT_MS
+  });
 }
 
 // Function to generate AI recommendations for a park visit
@@ -45,8 +70,8 @@ export async function generateAIRecommendation(
   month: string,
   userPreferences: string
 ): Promise<string> {
-  // Cast to the proper type with arrays
-  const park = parkData as unknown as ParkData;
+  // Safely validate and transform park data structure
+  const park = validateParkData(parkData);
   try {
     const openai = getOpenAI();
     console.log(`Generating AI recommendation for ${park.name} in ${month} with preferences: ${userPreferences}`);
@@ -101,8 +126,8 @@ Format your response in a conversational, friendly tone. Break up text into smal
             content: prompt,
           },
         ],
-        max_tokens: 500,
-        temperature: 0.7,
+        max_tokens: MAX_TOKENS,
+        temperature: TEMPERATURE,
       });
       console.log("Received response from OpenAI API");
       return response.choices[0].message.content || "Sorry, I couldn't generate a recommendation at this time.";
@@ -118,7 +143,9 @@ Format your response in a conversational, friendly tone. Break up text into smal
     console.error("Error generating AI recommendation:", error);
     if (error instanceof Error) {
       console.error(`Error details: ${error.message}`);
+      console.error(`Stack trace:`, error.stack);
     }
+    // Log error but provide fallback
     return "Sorry, I couldn't generate a recommendation at this time. Please try again later.";
   }
 }
@@ -131,8 +158,8 @@ export async function generateTripItinerary(
   days: number,
   userPreferences: string
 ): Promise<ItineraryDay[]> {
-  // Cast to the proper type with arrays
-  const park = parkData as unknown as ParkData;
+  // Safely validate and transform park data structure
+  const park = validateParkData(parkData);
   try {
     const openai = getOpenAI();
     console.log(`Generating ${days}-day trip itinerary for ${park.name} in ${month}`);
@@ -237,9 +264,11 @@ Make sure your response is ONLY the valid JSON without any other text.
     console.error("Error generating trip itinerary:", error);
     if (error instanceof Error) {
       console.error(`Error details: ${error.message}`);
+      console.error(`Stack trace:`, error.stack);
     }
     
     // Return a simple fallback itinerary if AI generation fails
+    console.warn(`Falling back to simple itinerary generation for ${days} days`);
     return generateFallbackItinerary(days, parkActivities);
   }
 }
