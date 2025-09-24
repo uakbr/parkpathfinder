@@ -16,6 +16,42 @@ const MAX_TRIP_DAYS = 30;
 const CACHE_KEY_LENGTH = 100;
 const VALID_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as const;
 
+// Helper functions to reduce duplicate validation logic
+function validateParkId(parkId: any): number {
+  const parkIdNum = parseInt(parkId);
+  if (isNaN(parkIdNum) || parkIdNum < 1) {
+    throw new Error("Invalid park ID");
+  }
+  return parkIdNum;
+}
+
+function validateMonth(month: any): string {
+  if (!VALID_MONTHS.includes(month)) {
+    throw new Error("Invalid month");
+  }
+  return month;
+}
+
+function validateDays(days: any): number {
+  const daysNum = parseInt(days);
+  if (isNaN(daysNum) || daysNum < 1 || daysNum > MAX_TRIP_DAYS) {
+    throw new Error(`Days must be between 1 and ${MAX_TRIP_DAYS}`);
+  }
+  return daysNum;
+}
+
+function sanitizePreferences(preferences: any): string {
+  if (typeof preferences !== 'string' || preferences.trim().length === 0) {
+    throw new Error("Preferences must be a non-empty string");
+  }
+  
+  if (preferences.length > MAX_PREFERENCES_LENGTH) {
+    throw new Error(`Preferences text too long (max ${MAX_PREFERENCES_LENGTH} characters)`);
+  }
+  
+  return preferences.trim().substring(0, MAX_PREFERENCES_LENGTH);
+}
+
 // Centralized error handling to avoid leaking internal details
 function handleError(error: unknown, fallbackMessage: string = "An error occurred") {
   console.error("Route error:", error);
@@ -93,10 +129,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get park by id
   app.get("/api/parks/:id", async (req, res) => {
     try {
-      const parkId = parseInt(req.params.id);
-      if (isNaN(parkId)) {
-        return res.status(400).json({ message: "Invalid park ID" });
-      }
+      const parkId = validateParkId(req.params.id);
       
       const park = await storage.getParkById(parkId);
       if (!park) {
@@ -112,11 +145,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get parks by month
   app.get("/api/parks/month/:month", async (req, res) => {
     try {
-      const month = req.params.month;
-      
-      if (!VALID_MONTHS.includes(month as any)) {
-        return res.status(400).json({ message: "Invalid month" });
-      }
+      const month = validateMonth(req.params.month);
       
       const parks = await storage.getParksByMonth(month);
       res.json(parks);
@@ -135,33 +164,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Missing required fields" });
       }
       
-      // Validate parkId is a positive integer
-      const parkIdNum = parseInt(parkId);
-      if (isNaN(parkIdNum) || parkIdNum < 1) {
-        return res.status(400).json({ message: "Invalid park ID" });
-      }
+      // Input validation using helper functions
+      const parkIdNum = validateParkId(parkId);
+      const validMonth = validateMonth(month);
+      const sanitizedPreferences = sanitizePreferences(preferences);
       
-      // Validate month is a valid month name
-      if (!VALID_MONTHS.includes(month as any)) {
-        return res.status(400).json({ message: "Invalid month" });
-      }
-      
-      // Sanitize preferences - limit length and remove potentially harmful content
-      if (typeof preferences !== 'string' || preferences.trim().length === 0) {
-        return res.status(400).json({ message: "Preferences must be a non-empty string" });
-      }
-      
-      if (preferences.length > MAX_PREFERENCES_LENGTH) {
-        return res.status(400).json({ message: `Preferences text too long (max ${MAX_PREFERENCES_LENGTH} characters)` });
-      }
-      
-      console.log(`Received recommendation request for park ${parkIdNum} in ${month}`);
+      console.log(`Received recommendation request for park ${parkIdNum} in ${validMonth}`);
       
       // Create a cache key from the parameters (truncate to reasonable length)
-      const preferencesKey = preferences.trim().toLowerCase().substring(0, CACHE_KEY_LENGTH);
+      const preferencesKey = sanitizedPreferences.toLowerCase().substring(0, CACHE_KEY_LENGTH);
       
       // Check if we have a cached recommendation with these exact preferences
-      let recommendation = await storage.getAiRecommendation(parkIdNum, month, preferencesKey);
+      let recommendation = await storage.getAiRecommendation(parkIdNum, validMonth, preferencesKey);
       
       if (!recommendation) {
         console.log("No cached recommendation found, generating new one");
@@ -171,13 +185,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
           return res.status(404).json({ message: "Park not found" });
         }
         
-        const recommendationText = await generateAIRecommendation(park, month, preferences);
+        const recommendationText = await generateAIRecommendation(park, validMonth, sanitizedPreferences);
         
         const now = new Date().toISOString();
         
         const newRecommendation = {
           park_id: parkIdNum,
-          month: month,
+          month: validMonth,
           user_preferences: preferencesKey,
           recommendation: recommendationText,
           created_at: now
@@ -205,10 +219,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get park activities
   app.get("/api/parks/:id/activities", async (req, res) => {
     try {
-      const parkId = parseInt(req.params.id);
-      if (isNaN(parkId)) {
-        return res.status(400).json({ message: "Invalid park ID" });
-      }
+      const parkId = validateParkId(req.params.id);
       
       const activities = await storage.getParkActivities(parkId);
       res.json(activities);
@@ -245,20 +256,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Missing required fields" });
       }
       
-      // Input validation
-      const parkIdNum = parseInt(parkId);
-      if (isNaN(parkIdNum) || parkIdNum < 1) {
-        return res.status(400).json({ message: "Invalid park ID" });
-      }
-      
-      const daysNum = parseInt(days);
-      if (isNaN(daysNum) || daysNum < 1 || daysNum > MAX_TRIP_DAYS) {
-        return res.status(400).json({ message: `Days must be between 1 and ${MAX_TRIP_DAYS}` });
-      }
-      
-      if (!VALID_MONTHS.includes(month as any)) {
-        return res.status(400).json({ message: "Invalid month" });
-      }
+      // Input validation using helper functions
+      const parkIdNum = validateParkId(parkId);
+      const validMonth = validateMonth(month);  
+      const daysNum = validateDays(days);
       
       // Sanitize optional fields
       const sanitizedPreferences = preferences && typeof preferences === 'string' 
@@ -272,7 +273,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Validate the data using the schema
       const newTripPlan = {
         park_id: parkIdNum,
-        month,
+        month: validMonth,
         days: daysNum,
         user_id: userIdNum,
         preferences: sanitizedPreferences,

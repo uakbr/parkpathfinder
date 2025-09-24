@@ -30,16 +30,17 @@ interface MonthlyWeather {
   precipitation: string;
 }
 
-interface ParkData extends NationalPark {
+// Simplified approach: extend NationalPark directly with type assertions
+type SafeParkData = NationalPark & {
   activities: string[];
   weather: Record<string, MonthlyWeather>;
   highlights: string[];
   best_months: string[];
   monthly_notes: Record<string, string>;
-}
+};
 
 // Safe validation helper for park data structure
-function validateParkData(parkData: NationalPark): ParkData {
+function validateParkData(parkData: NationalPark): SafeParkData {
   const activities = Array.isArray(parkData.activities) ? parkData.activities : [];
   const weather = typeof parkData.weather === 'object' && parkData.weather ? parkData.weather as Record<string, MonthlyWeather> : {};
   const highlights = Array.isArray(parkData.highlights) ? parkData.highlights : [];
@@ -84,7 +85,14 @@ export async function generateAIRecommendation(
     // Get monthly notes if available
     const monthlyNotes = (park.monthly_notes as any)?.[monthLower] || "No specific notes for this month.";
     
-    // Create a detailed prompt for the AI
+    /**
+     * AI Prompt Design Notes:
+     * - Structured format provides consistent context to the AI
+     * - Includes both factual park data and user preferences for personalization
+     * - Specific numbered requirements ensure comprehensive responses
+     * - Weather and timing information helps with practical advice
+     * - Character limits (via MAX_TOKENS) keep responses concise
+     */
     const prompt = `
 You are a National Park expert and travel advisor. You're helping a visitor plan their trip to ${park.name} in ${month}.
 
@@ -181,7 +189,15 @@ export async function generateTripItinerary(
       };
     });
     
-    // Create a structured prompt for the AI to generate a day-by-day itinerary
+    /**
+     * Trip Itinerary AI Prompt Design:
+     * - JSON response format for structured parsing
+     * - Includes all available activities with IDs for accurate mapping
+     * - Considers duration and difficulty for realistic scheduling
+     * - Weather context for seasonal planning
+     * - User preferences integration for personalization
+     * - Specific output format prevents parsing errors
+     */
     const prompt = `
 You are a National Park trip planner. Create a ${days}-day itinerary for ${park.name} in ${month}.
 

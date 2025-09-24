@@ -25,38 +25,7 @@ import {
 // modify the interface with any CRUD methods
 // you might need
 
-export interface IStorage {
-  getUser(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
-  
-  // National Parks
-  getAllParks(): Promise<NationalPark[]>;
-  getParkById(id: number): Promise<NationalPark | undefined>;
-  getParksByMonth(month: string): Promise<NationalPark[]>;
-  
-  // AI Recommendations
-  getAiRecommendation(parkId: number, month: string, preferences: string): Promise<AiRecommendation | undefined>;
-  createAiRecommendation(recommendation: InsertAiRecommendation): Promise<AiRecommendation>;
-  
-  // Park Activities
-  getParkActivities(parkId: number): Promise<ParkActivity[]>; 
-  getParkActivityById(id: number): Promise<ParkActivity | undefined>;
-  createParkActivity(activity: InsertParkActivity): Promise<ParkActivity>;
-  
-  // Trip Planning
-  createTripPlan(plan: InsertTripPlan): Promise<TripPlan>;
-  getTripPlanById(id: number): Promise<TripPlan | undefined>;
-  getTripDaysByTripId(tripId: number): Promise<TripDay[]>;
-  getTripActivitiesByDayId(dayId: number): Promise<(TripActivity & ParkActivity)[]>;
-  createTripDay(day: InsertTripDay): Promise<TripDay>;
-  createTripActivity(activity: InsertTripActivity): Promise<TripActivity>;
-  
-  // Cleanup methods for rollback support
-  deleteTripDaysByTripId(tripId: number): Promise<void>;
-}
-
-export class MemStorage implements IStorage {
+export class MemStorage {
   // Memory limits to prevent resource exhaustion
   private static readonly MAX_CACHE_SIZE = 1000;
   private static readonly MAX_TRIP_PLANS = 10000;
