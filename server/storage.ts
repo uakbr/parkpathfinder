@@ -881,6 +881,466 @@ export class MemStorage implements IStorage {
         monthly_notes: {
           may: "May can still have snow at higher elevations, but lower areas offer good hiking conditions."
         }
+      },
+      {
+        name: "Lassen Volcanic National Park",
+        state: "California",
+        description: "Lassen Volcanic National Park is located in northeastern California. The park showcases all four types of volcanoes and features hydrothermal areas, clear mountain lakes, and diverse forest communities.",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "40.4977",
+        longitude: "-121.4207",
+        rating: "4.2",
+        review_count: 1234,
+        activities: ["Hiking", "Photography", "Camping", "Wildlife Viewing", "Stargazing", "Hot Springs"],
+        weather: {
+          may: {
+            high: "60°F",
+            low: "35°F",
+            precipitation: "3.2\""
+          }
+        },
+        highlights: ["Lassen Peak", "Bumpass Hell", "Manzanita Lake", "Devastated Area", "Sulphur Works"],
+        best_months: ["June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May still has snow at higher elevations, but lower elevation trails and lakes are accessible."
+        }
+      },
+      {
+        name: "Redwood National and State Parks",
+        state: "California",
+        description: "Redwood National and State Parks are located along the coast of northern California. The parks preserve nearly half of all remaining coast redwood trees, the tallest trees on Earth.",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "41.2132",
+        longitude: "-124.0046",
+        rating: "4.7",
+        review_count: 3456,
+        activities: ["Hiking", "Photography", "Wildlife Viewing", "Scenic Drives", "Camping", "Beach Activities"],
+        weather: {
+          may: {
+            high: "65°F",
+            low: "45°F",
+            precipitation: "3.5\""
+          }
+        },
+        highlights: ["Tall Trees Grove", "Fern Canyon", "Gold Bluffs Beach", "Lady Bird Johnson Grove", "Prairie Creek"],
+        best_months: ["May", "June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May offers mild temperatures and fewer crowds for exploring the magnificent redwood groves."
+        }
+      },
+      {
+        name: "Crater Lake National Park",
+        state: "Oregon",
+        description: "Crater Lake National Park is located in southern Oregon. The park preserves Crater Lake, a caldera lake formed by the collapse of Mount Mazama, renowned for its deep blue color and water clarity.",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "42.8684",
+        longitude: "-122.1685",
+        rating: "4.8",
+        review_count: 2987,
+        activities: ["Photography", "Hiking", "Scenic Drives", "Wildlife Viewing", "Camping", "Stargazing"],
+        weather: {
+          may: {
+            high: "50°F",
+            low: "30°F",
+            precipitation: "2.5\""
+          }
+        },
+        highlights: ["Crater Lake", "Rim Drive", "Wizard Island", "Mount Scott", "Phantom Ship"],
+        best_months: ["July", "August", "September"],
+        monthly_notes: {
+          may: "May often still has heavy snow. Most facilities and roads remain closed until late June or July."
+        }
+      },
+      {
+        name: "Mount Rainier National Park",
+        state: "Washington",
+        description: "Mount Rainier National Park is located in west-central Washington. The park preserves Mount Rainier, an active stratovolcano, along with glaciers, old-growth forests, and subalpine meadows.",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "46.8523",
+        longitude: "-121.7603",
+        rating: "4.7",
+        review_count: 3654,
+        activities: ["Hiking", "Photography", "Wildlife Viewing", "Camping", "Mountain Climbing", "Wildflowers"],
+        weather: {
+          may: {
+            high: "60°F",
+            low: "40°F",
+            precipitation: "4.0\""
+          }
+        },
+        highlights: ["Mount Rainier", "Paradise", "Sunrise", "Reflection Lakes", "Grove of the Patriarchs"],
+        best_months: ["July", "August", "September"],
+        monthly_notes: {
+          may: "May can have snow at higher elevations, but lower trails and visitor centers are typically accessible."
+        }
+      },
+      {
+        name: "Olympic National Park",
+        state: "Washington",
+        description: "Olympic National Park is located on the Olympic Peninsula in western Washington. The park preserves nearly one million acres of wilderness including temperate rainforests, rugged coastline, and glaciated mountains.",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "47.8021",
+        longitude: "-123.6044",
+        rating: "4.8",
+        review_count: 4321,
+        activities: ["Hiking", "Photography", "Wildlife Viewing", "Camping", "Beach Activities", "Hot Springs"],
+        weather: {
+          may: {
+            high: "65°F",
+            low: "45°F",
+            precipitation: "3.8\""
+          }
+        },
+        highlights: ["Hoh Rainforest", "Hurricane Ridge", "Ruby Beach", "Sol Duc Hot Springs", "Lake Crescent"],
+        best_months: ["June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May offers good access to coastal areas and rainforests, though high country may still have snow."
+        }
+      },
+      {
+        name: "North Cascades National Park",
+        state: "Washington",
+        description: "North Cascades National Park is located in northern Washington. The park preserves a portion of the Cascade Range, featuring rugged mountain peaks, pristine lakes, and extensive wilderness areas.",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "48.7718",
+        longitude: "-121.2985",
+        rating: "4.6",
+        review_count: 1876,
+        activities: ["Hiking", "Photography", "Backpacking", "Wildlife Viewing", "Camping", "Mountain Climbing"],
+        weather: {
+          may: {
+            high: "60°F",
+            low: "40°F",
+            precipitation: "3.5\""
+          }
+        },
+        highlights: ["Diablo Lake", "Ross Lake", "Cascade Pass", "Blue Lake", "Thunder Creek"],
+        best_months: ["July", "August", "September"],
+        monthly_notes: {
+          may: "May typically has snow at higher elevations, limiting access to many trails and backcountry areas."
+        }
+      },
+      {
+        name: "Everglades National Park",
+        state: "Florida",
+        description: "Everglades National Park is located in southern Florida. The park preserves the southern portion of the Everglades, a vast wetland ecosystem known as the 'River of Grass' and home to diverse wildlife.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "25.2866",
+        longitude: "-80.8987",
+        rating: "4.4",
+        review_count: 3987,
+        activities: ["Wildlife Viewing", "Photography", "Hiking", "Camping", "Fishing", "Bird Watching"],
+        weather: {
+          may: {
+            high: "85°F",
+            low: "70°F",
+            precipitation: "6.5\""
+          }
+        },
+        highlights: ["Anhinga Trail", "Flamingo", "Shark Valley", "Coe Visitor Center", "Ten Thousand Islands"],
+        best_months: ["December", "January", "February", "March", "April"],
+        monthly_notes: {
+          may: "May begins the wet season with higher temperatures, humidity, and mosquito activity."
+        }
+      },
+      {
+        name: "Biscayne National Park",
+        state: "Florida",
+        description: "Biscayne National Park is located in southeastern Florida. The park preserves Biscayne Bay and its offshore barrier reefs, with 95% of the park underwater, protecting coral reefs and marine life.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "25.4900",
+        longitude: "-80.2082",
+        rating: "4.2",
+        review_count: 1234,
+        activities: ["Snorkeling", "Photography", "Boat Tours", "Fishing", "Wildlife Viewing", "Camping"],
+        weather: {
+          may: {
+            high: "84°F",
+            low: "73°F",
+            precipitation: "6.8\""
+          }
+        },
+        highlights: ["Coral Reefs", "Boca Chita Key", "Elliott Key", "Maritime Heritage Trail", "Stiltsville"],
+        best_months: ["December", "January", "February", "March", "April"],
+        monthly_notes: {
+          may: "May marks the beginning of the wet season with increased humidity and afternoon thunderstorms."
+        }
+      },
+      {
+        name: "Dry Tortugas National Park",
+        state: "Florida",
+        description: "Dry Tortugas National Park is located about 70 miles west of Key West, Florida. The park preserves Fort Jefferson and seven small islands composed of sand and coral reefs.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "24.6286",
+        longitude: "-82.8732",
+        rating: "4.5",
+        review_count: 987,
+        activities: ["Snorkeling", "Photography", "Bird Watching", "Camping", "Fishing", "Historic Tours"],
+        weather: {
+          may: {
+            high: "83°F",
+            low: "76°F",
+            precipitation: "3.2\""
+          }
+        },
+        highlights: ["Fort Jefferson", "Coral Reefs", "Sea Turtles", "Bird Watching", "Crystal Clear Waters"],
+        best_months: ["March", "April", "May", "October", "November"],
+        monthly_notes: {
+          may: "May offers excellent conditions before the peak summer heat and hurricane season."
+        }
+      },
+      {
+        name: "Congaree National Park",
+        state: "South Carolina",
+        description: "Congaree National Park is located in central South Carolina. The park preserves the largest intact expanse of old-growth bottomland hardwood forest in the southeastern United States.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "33.7948",
+        longitude: "-80.7821",
+        rating: "4.1",
+        review_count: 1543,
+        activities: ["Hiking", "Photography", "Wildlife Viewing", "Camping", "Canoeing", "Bird Watching"],
+        weather: {
+          may: {
+            high: "82°F",
+            low: "62°F",
+            precipitation: "3.8\""
+          }
+        },
+        highlights: ["Boardwalk Loop", "Fireflies", "Old-Growth Forest", "Congaree River", "Champion Trees"],
+        best_months: ["April", "May", "June", "September", "October"],
+        monthly_notes: {
+          may: "May offers pleasant temperatures for hiking and is firefly season in the park."
+        }
+      },
+      {
+        name: "Indiana Dunes National Park",
+        state: "Indiana",
+        description: "Indiana Dunes National Park is located along the southern shore of Lake Michigan in northwestern Indiana. The park preserves sand dunes, wetlands, prairies, and forests along 15 miles of lakefront.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "41.6533",
+        longitude: "-87.0934",
+        rating: "4.0",
+        review_count: 2134,
+        activities: ["Hiking", "Photography", "Beach Activities", "Wildlife Viewing", "Bird Watching", "Stargazing"],
+        weather: {
+          may: {
+            high: "68°F",
+            low: "50°F",
+            precipitation: "3.5\""
+          }
+        },
+        highlights: ["Lake Michigan Beach", "Mount Baldy", "West Beach", "Dune Succession Trail", "Great Marsh"],
+        best_months: ["May", "June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May offers comfortable temperatures for beach activities and spring wildflower viewing."
+        }
+      },
+      {
+        name: "Cuyahoga Valley National Park",
+        state: "Ohio",
+        description: "Cuyahoga Valley National Park is located in northeastern Ohio between Cleveland and Akron. The park preserves rural landscapes along the Cuyahoga River, including waterfalls, hills, trails, and historic structures.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "41.2808",
+        longitude: "-81.5678",
+        rating: "4.2",
+        review_count: 2876,
+        activities: ["Hiking", "Photography", "Biking", "Wildlife Viewing", "Scenic Drives", "Historic Tours"],
+        weather: {
+          may: {
+            high: "70°F",
+            low: "50°F",
+            precipitation: "3.8\""
+          }
+        },
+        highlights: ["Brandywine Falls", "Ohio & Erie Canal Towpath", "Ledges Trail", "Scenic Railroad", "Historic Buildings"],
+        best_months: ["May", "June", "July", "August", "September", "October"],
+        monthly_notes: {
+          may: "May offers perfect conditions for hiking and biking with spring foliage and comfortable temperatures."
+        }
+      },
+      {
+        name: "Gateway Arch National Park",
+        state: "Missouri",
+        description: "Gateway Arch National Park is located in St. Louis, Missouri. The park preserves the Gateway Arch, a 630-foot monument to the westward expansion of the United States and the centerpiece of downtown St. Louis.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "38.6247",
+        longitude: "-90.1848",
+        rating: "4.3",
+        review_count: 4567,
+        activities: ["Photography", "Cultural Sites", "Historic Tours", "Scenic Views", "Museums", "River Activities"],
+        weather: {
+          may: {
+            high: "75°F",
+            low: "58°F",
+            precipitation: "4.2\""
+          }
+        },
+        highlights: ["Gateway Arch", "Museum of Westward Expansion", "Mississippi River", "Old Courthouse", "Tram Ride"],
+        best_months: ["April", "May", "June", "September", "October"],
+        monthly_notes: {
+          may: "May provides comfortable weather for visiting the arch and exploring the riverfront area."
+        }
+      },
+      {
+        name: "Theodore Roosevelt National Park",
+        state: "North Dakota",
+        description: "Theodore Roosevelt National Park is located in western North Dakota. The park preserves part of the badlands where President Theodore Roosevelt ranched and was inspired to pursue conservation efforts.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "47.1751",
+        longitude: "-103.4544",
+        rating: "4.4",
+        review_count: 1234,
+        activities: ["Hiking", "Photography", "Wildlife Viewing", "Scenic Drives", "Camping", "Stargazing"],
+        weather: {
+          may: {
+            high: "68°F",
+            low: "45°F",
+            precipitation: "2.5\""
+          }
+        },
+        highlights: ["Painted Canyon", "Scenic Loop Drive", "Petrified Forest", "Wildlife Prairie Dogs", "Roosevelt Cabin"],
+        best_months: ["May", "June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May offers excellent weather for exploring the badlands with comfortable temperatures and spring wildlife activity."
+        }
+      },
+      {
+        name: "Badlands National Park",
+        state: "South Dakota",
+        description: "Badlands National Park is located in southwestern South Dakota. The park preserves sharply eroded buttes and pinnacles, along with the largest undisturbed mixed grass prairie in the United States.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "43.8791",
+        longitude: "-102.5002",
+        rating: "4.5",
+        review_count: 2543,
+        activities: ["Hiking", "Photography", "Wildlife Viewing", "Fossil Hunting", "Stargazing", "Scenic Drives"],
+        weather: {
+          may: {
+            high: "70°F",
+            low: "48°F",
+            precipitation: "2.8\""
+          }
+        },
+        highlights: ["Badlands Loop Road", "Ben Reifel Visitor Center", "Fossil Exhibits", "Door Trail", "Notch Trail"],
+        best_months: ["May", "June", "September", "October"],
+        monthly_notes: {
+          may: "May provides ideal conditions for exploring the badlands formations with comfortable temperatures."
+        }
+      },
+      {
+        name: "Wind Cave National Park",
+        state: "South Dakota",
+        description: "Wind Cave National Park is located in the Black Hills of South Dakota. The park preserves Wind Cave, one of the longest and most complex caves in the world, along with mixed-grass prairie ecosystem.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "43.5579",
+        longitude: "-103.4962",
+        rating: "4.2",
+        review_count: 1876,
+        activities: ["Cave Tours", "Hiking", "Wildlife Viewing", "Photography", "Camping", "Stargazing"],
+        weather: {
+          may: {
+            high: "67°F",
+            low: "43°F",
+            precipitation: "3.2\""
+          }
+        },
+        highlights: ["Wind Cave", "Prairie Dog Towns", "Bison Herds", "Elk Mountain Campground", "Rankin Ridge"],
+        best_months: ["May", "June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May offers excellent cave touring weather and good wildlife viewing on the prairie above."
+        }
+      },
+      {
+        name: "Voyageurs National Park",
+        state: "Minnesota",
+        description: "Voyageurs National Park is located in northern Minnesota along the Canadian border. The park preserves a portion of the historic route of French-Canadian fur traders and features pristine lakes and boreal forests.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "48.4839",
+        longitude: "-92.8386",
+        rating: "4.3",
+        review_count: 1543,
+        activities: ["Canoeing", "Fishing", "Photography", "Camping", "Wildlife Viewing", "Historic Tours"],
+        weather: {
+          may: {
+            high: "65°F",
+            low: "45°F",
+            precipitation: "3.0\""
+          }
+        },
+        highlights: ["Kabetogama Lake", "Rainy Lake", "Kettle Falls", "Ellsworth Rock Gardens", "Gold Mine"],
+        best_months: ["May", "June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May marks the beginning of the canoeing season with ice-out and comfortable temperatures for water activities."
+        }
+      },
+      {
+        name: "Isle Royale National Park",
+        state: "Michigan",
+        description: "Isle Royale National Park is located on a remote island in Lake Superior. The park preserves a wilderness archipelago with pristine forests, clear lakes, and a predator-prey relationship between wolves and moose.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "48.0063",
+        longitude: "-88.5566",
+        rating: "4.4",
+        review_count: 987,
+        activities: ["Hiking", "Backpacking", "Fishing", "Wildlife Viewing", "Canoeing", "Photography"],
+        weather: {
+          may: {
+            high: "58°F",
+            low: "38°F",
+            precipitation: "2.8\""
+          }
+        },
+        highlights: ["Greenstone Ridge Trail", "Rock Harbor", "Windigo", "Scoville Point", "Moose and Wolves"],
+        best_months: ["June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May can still be cool and park facilities may not be fully operational until June."
+        }
+      },
+      {
+        name: "New River Gorge National Park",
+        state: "West Virginia",
+        description: "New River Gorge National Park is located in southern West Virginia. The park preserves the New River Gorge, featuring some of the country's best whitewater rafting, rock climbing, and hiking.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "37.9393",
+        longitude: "-81.0676",
+        rating: "4.6",
+        review_count: 2134,
+        activities: ["Rock Climbing", "Hiking", "Rafting", "Photography", "Wildlife Viewing", "Camping"],
+        weather: {
+          may: {
+            high: "74°F",
+            low: "52°F",
+            precipitation: "4.1\""
+          }
+        },
+        highlights: ["New River Gorge Bridge", "Endless Wall Trail", "Long Point", "Sandstone Falls", "Whitewater Rafting"],
+        best_months: ["April", "May", "June", "September", "October"],
+        monthly_notes: {
+          may: "May provides excellent weather for all outdoor activities with spring foliage and comfortable temperatures."
+        }
+      },
+      {
+        name: "Pinnacles National Park",
+        state: "California",
+        description: "Pinnacles National Park is located in central California. The park preserves the remains of an extinct volcano, featuring towering rock spires, talus caves, and diverse wildlife including California condors.",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "36.4906",
+        longitude: "-121.1825",
+        rating: "4.3",
+        review_count: 1765,
+        activities: ["Hiking", "Rock Climbing", "Photography", "Wildlife Viewing", "Cave Exploring", "Stargazing"],
+        weather: {
+          may: {
+            high: "78°F",
+            low: "50°F",
+            precipitation: "0.8\""
+          }
+        },
+        highlights: ["High Peaks", "Bear Gulch Cave", "Balconies Cave", "California Condors", "Rock Formations"],
+        best_months: ["March", "April", "May", "October", "November"],
+        monthly_notes: {
+          may: "May offers ideal hiking weather with moderate temperatures and spring wildflower blooms."
+        }
       }
     ];
     
@@ -1543,6 +2003,209 @@ export class MemStorage implements IStorage {
         best_time_of_day: "morning",
         best_months: ["May", "June", "July", "August", "September"],
         tips: "Paved trail suitable for all abilities. Stay back from cliff edges."
+      },
+      // Lassen Volcanic Activities (Park ID 29)
+      {
+        park_id: 29,
+        name: "Bumpass Hell",
+        description: "Largest hydrothermal area in the park with boiling mud pots, fumaroles, and hot springs.",
+        category: "hiking",
+        duration_minutes: 120,
+        difficulty: "moderate",
+        latitude: "40.4365",
+        longitude: "-121.4544",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+        best_time_of_day: "morning",
+        best_months: ["June", "July", "August", "September"],
+        tips: "Stay on boardwalks and designated trails. Ground and water are dangerously hot."
+      },
+      {
+        park_id: 29,
+        name: "Manzanita Lake",
+        description: "Peaceful lake offering reflections of Lassen Peak with an easy walking trail around the perimeter.",
+        category: "hiking",
+        duration_minutes: 90,
+        difficulty: "easy",
+        latitude: "40.5322",
+        longitude: "-121.5698",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+        best_time_of_day: "sunrise",
+        best_months: ["June", "July", "August", "September"],
+        tips: "Best reflections in calm morning conditions. Great for photography and families."
+      },
+      // Redwood Activities (Park ID 30)
+      {
+        park_id: 30,
+        name: "Lady Bird Johnson Grove",
+        description: "Easy loop trail through magnificent old-growth redwoods dedicated to the former First Lady.",
+        category: "hiking",
+        duration_minutes: 60,
+        difficulty: "easy",
+        latitude: "41.2893",
+        longitude: "-124.0046",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+        best_time_of_day: "morning",
+        best_months: ["May", "June", "July", "August", "September"],
+        tips: "Paved trail accessible to most visitors. Beautiful light filters through the canopy."
+      },
+      {
+        park_id: 30,
+        name: "Fern Canyon",
+        description: "Narrow canyon with 50-foot walls covered in ferns, featured in movies like Jurassic Park.",
+        category: "hiking",
+        duration_minutes: 75,
+        difficulty: "easy",
+        latitude: "41.3845",
+        longitude: "-124.0654",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+        best_time_of_day: "afternoon",
+        best_months: ["May", "June", "July", "August", "September"],
+        tips: "Creek crossings required. Wear waterproof shoes. Can be muddy after rain."
+      },
+      // Crater Lake Activities (Park ID 31)
+      {
+        park_id: 31,
+        name: "Rim Drive",
+        description: "33-mile scenic drive around the caldera offering spectacular viewpoints of Crater Lake.",
+        category: "scenic drive",
+        duration_minutes: 180,
+        difficulty: "easy",
+        latitude: "42.8684",
+        longitude: "-122.1685",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "afternoon",
+        best_months: ["July", "August", "September"],
+        tips: "Road typically fully open July through October. Check conditions before visiting."
+      },
+      {
+        park_id: 31,
+        name: "Watchman Peak Trail",
+        description: "Moderate hike to a historic fire lookout with panoramic views of Crater Lake.",
+        category: "hiking",
+        duration_minutes: 120,
+        difficulty: "moderate",
+        latitude: "42.8965",
+        longitude: "-122.1854",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "sunset",
+        best_months: ["July", "August", "September"],
+        tips: "Popular sunset viewing spot. Bring warm clothes as temperatures drop quickly."
+      },
+      // Mount Rainier Activities (Park ID 32)
+      {
+        park_id: 32,
+        name: "Paradise Meadows",
+        description: "Subalpine meadows with wildflower displays and views of Mount Rainier's glaciers.",
+        category: "hiking",
+        duration_minutes: 120,
+        difficulty: "moderate",
+        latitude: "46.7859",
+        longitude: "-121.7354",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "afternoon",
+        best_months: ["July", "August", "September"],
+        tips: "Peak wildflower season is late July to early August. Trails can be snowy until late July."
+      },
+      {
+        park_id: 32,
+        name: "Sunrise Visitor Area",
+        description: "Highest point accessible by vehicle, offering close views of Mount Rainier and glaciers.",
+        category: "viewpoint",
+        duration_minutes: 90,
+        difficulty: "easy",
+        latitude: "46.9149",
+        longitude: "-121.6406",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "sunrise",
+        best_months: ["July", "August", "September"],
+        tips: "Road typically opens late June. Arrive early for parking and best light."
+      },
+      // Olympic Activities (Park ID 33)
+      {
+        park_id: 33,
+        name: "Hoh Rainforest",
+        description: "One of the finest examples of temperate rainforest with massive trees and lush vegetation.",
+        category: "hiking",
+        duration_minutes: 90,
+        difficulty: "easy",
+        latitude: "47.8606",
+        longitude: "-123.9348",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "morning",
+        best_months: ["May", "June", "July", "August", "September"],
+        tips: "Hall of Mosses Trail is most popular. Expect some rain gear needed year-round."
+      },
+      {
+        park_id: 33,
+        name: "Hurricane Ridge",
+        description: "Mountain viewpoint offering panoramic views of the Olympic Mountains and Strait of Juan de Fuca.",
+        category: "viewpoint",
+        duration_minutes: 120,
+        difficulty: "easy",
+        latitude: "47.9692",
+        longitude: "-123.4992",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "afternoon",
+        best_months: ["June", "July", "August", "September"],
+        tips: "Road can be closed due to snow. Check conditions. Popular area can be crowded."
+      },
+      // North Cascades Activities (Park ID 34)
+      {
+        park_id: 34,
+        name: "Diablo Lake Overlook",
+        description: "Stunning turquoise lake surrounded by dramatic mountain peaks, accessible via short hike.",
+        category: "viewpoint",
+        duration_minutes: 45,
+        difficulty: "easy",
+        latitude: "48.7172",
+        longitude: "-121.1186",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "afternoon",
+        best_months: ["June", "July", "August", "September"],
+        tips: "Color is most vivid on sunny days. Easy walk from parking area."
+      },
+      {
+        park_id: 34,
+        name: "Blue Lake Trail",
+        description: "Moderate hike to an alpine lake with dramatic mountain scenery and wildflowers.",
+        category: "hiking",
+        duration_minutes: 240,
+        difficulty: "moderate",
+        latitude: "48.5165",
+        longitude: "-120.7406",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "morning",
+        best_months: ["July", "August", "September"],
+        tips: "Trail can have snow until mid-July. Requires good hiking boots and preparation."
+      },
+      // Everglades Activities (Park ID 35)
+      {
+        park_id: 35,
+        name: "Anhinga Trail",
+        description: "Wheelchair accessible boardwalk through wetlands with excellent wildlife viewing opportunities.",
+        category: "hiking",
+        duration_minutes: 60,
+        difficulty: "easy",
+        latitude: "25.3895",
+        longitude: "-80.6284",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "early morning",
+        best_months: ["December", "January", "February", "March", "April"],
+        tips: "Best wildlife viewing in dry season. Bring binoculars and insect repellent."
+      },
+      {
+        park_id: 35,
+        name: "Shark Valley Tram Road",
+        description: "15-mile loop road through sawgrass prairie with observation tower at the halfway point.",
+        category: "scenic drive",
+        duration_minutes: 180,
+        difficulty: "easy",
+        latitude: "25.7598",
+        longitude: "-80.7682",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "morning",
+        best_months: ["December", "January", "February", "March", "April"],
+        tips: "Can walk, bike, or take tram tour. Alligator sightings common during dry season."
       }
     ];
     
