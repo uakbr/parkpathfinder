@@ -241,5 +241,245 @@ export const parkData: Park[] = [
     monthly_notes: {
       may: "May brings spring blooms and comfortable hiking weather, with fewer crowds than peak summer months."
     }
+  },
+  {
+    id: 11,
+    name: "Grand Teton National Park",
+    state: "Wyoming",
+    description: "Grand Teton National Park is located in northwestern Wyoming, south of Yellowstone. The park's dramatic mountain range rises abruptly from the valley floor, creating one of the most iconic skylines in America.",
+    image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    latitude: "43.7904",
+    longitude: "-110.6818",
+    rating: "4.8",
+    review_count: 2987,
+    activities: ["Hiking", "Photography", "Wildlife Viewing", "Camping", "Fishing", "Rock Climbing"],
+    weather: {
+      may: {
+        high: "65°F",
+        low: "35°F",
+        precipitation: "2.0\""
+      }
+    },
+    highlights: ["Teton Range", "Jackson Lake", "Jenny Lake", "Snake River", "Wildlife Viewing"],
+    best_months: ["June", "July", "August", "September"],
+    monthly_notes: {
+      may: "May still has snow at higher elevations, but valley floors offer excellent wildlife viewing as animals emerge from winter."
+    }
+  },
+  {
+    id: 12,
+    name: "Rocky Mountain National Park",
+    state: "Colorado",
+    description: "Rocky Mountain National Park is located in north-central Colorado. The park is known for its spectacular mountain scenery, abundant wildlife, varied climates and environments—from wooded forests to mountain tundra.",
+    image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    latitude: "40.3428",
+    longitude: "-105.6836",
+    rating: "4.7",
+    review_count: 3421,
+    activities: ["Hiking", "Wildlife Viewing", "Photography", "Camping", "Scenic Drives", "Stargazing"],
+    weather: {
+      may: {
+        high: "60°F",
+        low: "30°F",
+        precipitation: "2.5\""
+      }
+    },
+    highlights: ["Trail Ridge Road", "Bear Lake", "Alberta Falls", "Sprague Lake", "Elk Viewing"],
+    best_months: ["June", "July", "August", "September"],
+    monthly_notes: {
+      may: "May offers good wildlife viewing but Trail Ridge Road may still be closed at higher elevations due to snow."
+    }
+  },
+  {
+    id: 13,
+    name: "Sequoia National Park",
+    state: "California",
+    description: "Sequoia National Park is located in the southern Sierra Nevada mountains of California. The park is famous for its giant sequoia trees, including General Sherman, the largest tree on Earth by volume.",
+    image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    latitude: "36.4864",
+    longitude: "-118.5658",
+    rating: "4.6",
+    review_count: 2156,
+    activities: ["Hiking", "Photography", "Camping", "Wildlife Viewing", "Scenic Views", "Stargazing"],
+    weather: {
+      may: {
+        high: "70°F",
+        low: "45°F",
+        precipitation: "1.8\""
+      }
+    },
+    highlights: ["General Sherman Tree", "Giant Forest", "Moro Rock", "Crystal Cave", "High Sierra Camps"],
+    best_months: ["May", "June", "July", "August", "September"],
+    monthly_notes: {
+      may: "May is excellent for visiting the giant sequoias with mild weather and fewer crowds than summer."
+    }
+  },
+  {
+    id: 14,
+    name: "Kings Canyon National Park",
+    state: "California",
+    description: "Kings Canyon National Park is located in the southern Sierra Nevada, in Fresno and Tulare Counties, California. The park is known for its massive canyons, towering waterfalls, and giant sequoia groves.",
+    image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    latitude: "36.8879",
+    longitude: "-118.5551",
+    rating: "4.5",
+    review_count: 1543,
+    activities: ["Hiking", "Photography", "Camping", "Rock Climbing", "Scenic Views", "Stargazing"],
+    weather: {
+      may: {
+        high: "68°F",
+        low: "42°F",
+        precipitation: "1.6\""
+      }
+    },
+    highlights: ["Kings Canyon Scenic Byway", "General Grant Tree", "Zumwalt Meadow", "Roaring River Falls", "Cedar Grove"],
+    best_months: ["May", "June", "July", "August", "September"],
+    monthly_notes: {
+      may: "May offers pleasant weather for exploring the sequoia groves and canyon views with spring wildflowers."
+    }
+  },
+  {
+    id: 15,
+    name: "Death Valley National Park",
+    state: "California/Nevada",
+    description: "Death Valley National Park straddles the California-Nevada border. It's known for its vast, otherworldly desert landscapes, extreme temperatures, and unique geological features.",
+    image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    latitude: "36.5323",
+    longitude: "-117.0794",
+    rating: "4.4",
+    review_count: 1876,
+    activities: ["Photography", "Stargazing", "Scenic Drives", "Hiking", "Rock Formations", "Camping"],
+    weather: {
+      may: {
+        high: "90°F",
+        low: "65°F",
+        precipitation: "0.1\""
+      }
+    },
+    highlights: ["Badwater Basin", "Artists Palette", "Zabriskie Point", "Mesquite Flat Sand Dunes", "Dante's View"],
+    best_months: ["March", "April", "May", "October", "November"],
+    monthly_notes: {
+      may: "May offers warm but manageable temperatures for desert exploration before the extreme summer heat."
+    }
+  },
+  {
+    id: 16,
+    name: "Capitol Reef National Park",
+    state: "Utah",
+    description: "Capitol Reef National Park is located in south-central Utah. The park preserves a long wrinkle in the earth known as the Waterpocket Fold, along with colorful sandstone cliffs, canyons, domes, and bridges.",
+    image_url: "https://images.unsplash.com/photo-1583398561012-8645a7e5b399?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    latitude: "38.2972",
+    longitude: "-111.2615",
+    rating: "4.5",
+    review_count: 1654,
+    activities: ["Hiking", "Photography", "Scenic Drives", "Rock Formations", "Stargazing", "Camping"],
+    weather: {
+      may: {
+        high: "75°F",
+        low: "45°F",
+        precipitation: "0.8\""
+      }
+    },
+    highlights: ["Capitol Reef", "Petroglyphs Trail", "Scenic Drive", "Hickman Bridge", "Fruita Historic District"],
+    best_months: ["April", "May", "June", "September", "October"],
+    monthly_notes: {
+      may: "May offers ideal weather for exploring the colorful rock formations and historic pioneer sites."
+    }
+  },
+  {
+    id: 17,
+    name: "Canyonlands National Park",
+    state: "Utah",
+    description: "Canyonlands National Park is located in southeastern Utah. The Colorado River and its tributary the Green River divide the park into four districts: Mesa Arch, Island in the Sky, The Needles, and The Maze.",
+    image_url: "https://images.unsplash.com/photo-1583398561012-8645a7e5b399?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    latitude: "38.3269",
+    longitude: "-109.8783",
+    rating: "4.6",
+    review_count: 1987,
+    activities: ["Hiking", "Photography", "Rock Climbing", "Scenic Views", "Stargazing", "Camping"],
+    weather: {
+      may: {
+        high: "78°F",
+        low: "52°F",
+        precipitation: "0.6\""
+      }
+    },
+    highlights: ["Mesa Arch", "Grand View Point", "Delicate Arch Viewpoint", "White Rim Road", "The Needles"],
+    best_months: ["April", "May", "September", "October"],
+    monthly_notes: {
+      may: "May provides excellent weather for hiking and photography with comfortable temperatures."
+    }
+  },
+  {
+    id: 18,
+    name: "Mesa Verde National Park",
+    state: "Colorado",
+    description: "Mesa Verde National Park is located in southwestern Colorado. The park protects some of the best-preserved Ancestral Puebloan archaeological sites in the United States, including spectacular cliff dwellings.",
+    image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    latitude: "37.2308",
+    longitude: "-108.4618",
+    rating: "4.4",
+    review_count: 1543,
+    activities: ["Hiking", "Photography", "Cultural Sites", "Scenic Views", "Camping", "Wildlife Viewing"],
+    weather: {
+      may: {
+        high: "70°F",
+        low: "40°F",
+        precipitation: "1.0\""
+      }
+    },
+    highlights: ["Cliff Palace", "Balcony House", "Long House", "Mesa Top Loop Road", "Wetherill Mesa"],
+    best_months: ["May", "June", "September", "October"],
+    monthly_notes: {
+      may: "May is ideal for touring the cliff dwellings with mild temperatures and spring wildflowers."
+    }
+  },
+  {
+    id: 19,
+    name: "Great Sand Dunes National Park",
+    state: "Colorado",
+    description: "Great Sand Dunes National Park is located in southern Colorado. The park contains the tallest sand dunes in North America, rising over 750 feet against the dramatic backdrop of the Sangre de Cristo Mountains.",
+    image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    latitude: "37.7916",
+    longitude: "-105.5943",
+    rating: "4.3",
+    review_count: 1876,
+    activities: ["Hiking", "Photography", "Sand Surfing", "Stargazing", "Camping", "Wildlife Viewing"],
+    weather: {
+      may: {
+        high: "68°F",
+        low: "38°F",
+        precipitation: "1.5\""
+      }
+    },
+    highlights: ["Tall Dunes", "Medano Creek", "Sangre de Cristo Mountains", "Star Dune", "Sand Surfing"],
+    best_months: ["May", "June", "September", "October"],
+    monthly_notes: {
+      may: "May offers great conditions for exploring the dunes before summer heat, with possible creek flow for cooling off."
+    }
+  },
+  {
+    id: 20,
+    name: "Black Canyon of the Gunnison National Park",
+    state: "Colorado",
+    description: "Black Canyon of the Gunnison National Park is located in western Colorado. The park protects a section of the Gunnison River canyon, known for its dark walls and dramatic, narrow gorge.",
+    image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    latitude: "38.5753",
+    longitude: "-107.7416",
+    rating: "4.5",
+    review_count: 987,
+    activities: ["Photography", "Hiking", "Rock Climbing", "Scenic Views", "Stargazing", "Wildlife Viewing"],
+    weather: {
+      may: {
+        high: "65°F",
+        low: "35°F",
+        precipitation: "1.8\""
+      }
+    },
+    highlights: ["South Rim Drive", "Painted Wall", "Sunset View", "Gunnison Point", "Cedar Point"],
+    best_months: ["May", "June", "July", "August", "September"],
+    monthly_notes: {
+      may: "May provides excellent viewing conditions with clear skies and comfortable temperatures for rim trail hiking."
+    }
   }
 ];

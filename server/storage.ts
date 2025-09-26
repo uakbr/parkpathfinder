@@ -467,6 +467,236 @@ export class MemStorage implements IStorage {
         monthly_notes: {
           may: "May brings spring blooms and comfortable hiking weather, with fewer crowds than peak summer months."
         }
+      },
+      {
+        name: "Grand Teton National Park",
+        state: "Wyoming",
+        description: "Grand Teton National Park is located in northwestern Wyoming, south of Yellowstone. The park's dramatic mountain range rises abruptly from the valley floor, creating one of the most iconic skylines in America.",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "43.7904",
+        longitude: "-110.6818",
+        rating: "4.8",
+        review_count: 2987,
+        activities: ["Hiking", "Photography", "Wildlife Viewing", "Camping", "Fishing", "Rock Climbing"],
+        weather: {
+          may: {
+            high: "65°F",
+            low: "35°F",
+            precipitation: "2.0\""
+          }
+        },
+        highlights: ["Teton Range", "Jackson Lake", "Jenny Lake", "Snake River", "Wildlife Viewing"],
+        best_months: ["June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May still has snow at higher elevations, but valley floors offer excellent wildlife viewing as animals emerge from winter."
+        }
+      },
+      {
+        name: "Rocky Mountain National Park",
+        state: "Colorado",
+        description: "Rocky Mountain National Park is located in north-central Colorado. The park is known for its spectacular mountain scenery, abundant wildlife, varied climates and environments—from wooded forests to mountain tundra.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "40.3428",
+        longitude: "-105.6836",
+        rating: "4.7",
+        review_count: 3421,
+        activities: ["Hiking", "Wildlife Viewing", "Photography", "Camping", "Scenic Drives", "Stargazing"],
+        weather: {
+          may: {
+            high: "60°F",
+            low: "30°F",
+            precipitation: "2.5\""
+          }
+        },
+        highlights: ["Trail Ridge Road", "Bear Lake", "Alberta Falls", "Sprague Lake", "Elk Viewing"],
+        best_months: ["June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May offers good wildlife viewing but Trail Ridge Road may still be closed at higher elevations due to snow."
+        }
+      },
+      {
+        name: "Sequoia National Park",
+        state: "California",
+        description: "Sequoia National Park is located in the southern Sierra Nevada mountains of California. The park is famous for its giant sequoia trees, including General Sherman, the largest tree on Earth by volume.",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "36.4864",
+        longitude: "-118.5658",
+        rating: "4.6",
+        review_count: 2156,
+        activities: ["Hiking", "Photography", "Camping", "Wildlife Viewing", "Scenic Views", "Stargazing"],
+        weather: {
+          may: {
+            high: "70°F",
+            low: "45°F",
+            precipitation: "1.8\""
+          }
+        },
+        highlights: ["General Sherman Tree", "Giant Forest", "Moro Rock", "Crystal Cave", "High Sierra Camps"],
+        best_months: ["May", "June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May is excellent for visiting the giant sequoias with mild weather and fewer crowds than summer."
+        }
+      },
+      {
+        name: "Kings Canyon National Park",
+        state: "California",
+        description: "Kings Canyon National Park is located in the southern Sierra Nevada, in Fresno and Tulare Counties, California. The park is known for its massive canyons, towering waterfalls, and giant sequoia groves.",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "36.8879",
+        longitude: "-118.5551",
+        rating: "4.5",
+        review_count: 1543,
+        activities: ["Hiking", "Photography", "Camping", "Rock Climbing", "Scenic Views", "Stargazing"],
+        weather: {
+          may: {
+            high: "68°F",
+            low: "42°F",
+            precipitation: "1.6\""
+          }
+        },
+        highlights: ["Kings Canyon Scenic Byway", "General Grant Tree", "Zumwalt Meadow", "Roaring River Falls", "Cedar Grove"],
+        best_months: ["May", "June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May offers pleasant weather for exploring the sequoia groves and canyon views with spring wildflowers."
+        }
+      },
+      {
+        name: "Death Valley National Park",
+        state: "California/Nevada",
+        description: "Death Valley National Park straddles the California-Nevada border. It's known for its vast, otherworldly desert landscapes, extreme temperatures, and unique geological features.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "36.5323",
+        longitude: "-117.0794",
+        rating: "4.4",
+        review_count: 1876,
+        activities: ["Photography", "Stargazing", "Scenic Drives", "Hiking", "Rock Formations", "Camping"],
+        weather: {
+          may: {
+            high: "90°F",
+            low: "65°F",
+            precipitation: "0.1\""
+          }
+        },
+        highlights: ["Badwater Basin", "Artists Palette", "Zabriskie Point", "Mesquite Flat Sand Dunes", "Dante's View"],
+        best_months: ["March", "April", "May", "October", "November"],
+        monthly_notes: {
+          may: "May offers warm but manageable temperatures for desert exploration before the extreme summer heat."
+        }
+      },
+      {
+        name: "Capitol Reef National Park",
+        state: "Utah",
+        description: "Capitol Reef National Park is located in south-central Utah. The park preserves a long wrinkle in the earth known as the Waterpocket Fold, along with colorful sandstone cliffs, canyons, domes, and bridges.",
+        image_url: "https://images.unsplash.com/photo-1583398561012-8645a7e5b399?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "38.2972",
+        longitude: "-111.2615",
+        rating: "4.5",
+        review_count: 1654,
+        activities: ["Hiking", "Photography", "Scenic Drives", "Rock Formations", "Stargazing", "Camping"],
+        weather: {
+          may: {
+            high: "75°F",
+            low: "45°F",
+            precipitation: "0.8\""
+          }
+        },
+        highlights: ["Capitol Reef", "Petroglyphs Trail", "Scenic Drive", "Hickman Bridge", "Fruita Historic District"],
+        best_months: ["April", "May", "June", "September", "October"],
+        monthly_notes: {
+          may: "May offers ideal weather for exploring the colorful rock formations and historic pioneer sites."
+        }
+      },
+      {
+        name: "Canyonlands National Park",
+        state: "Utah",
+        description: "Canyonlands National Park is located in southeastern Utah. The Colorado River and its tributary the Green River divide the park into four districts: Mesa Arch, Island in the Sky, The Needles, and The Maze.",
+        image_url: "https://images.unsplash.com/photo-1583398561012-8645a7e5b399?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "38.3269",
+        longitude: "-109.8783",
+        rating: "4.6",
+        review_count: 1987,
+        activities: ["Hiking", "Photography", "Rock Climbing", "Scenic Views", "Stargazing", "Camping"],
+        weather: {
+          may: {
+            high: "78°F",
+            low: "52°F",
+            precipitation: "0.6\""
+          }
+        },
+        highlights: ["Mesa Arch", "Grand View Point", "Delicate Arch Viewpoint", "White Rim Road", "The Needles"],
+        best_months: ["April", "May", "September", "October"],
+        monthly_notes: {
+          may: "May provides excellent weather for hiking and photography with comfortable temperatures."
+        }
+      },
+      {
+        name: "Mesa Verde National Park",
+        state: "Colorado",
+        description: "Mesa Verde National Park is located in southwestern Colorado. The park protects some of the best-preserved Ancestral Puebloan archaeological sites in the United States, including spectacular cliff dwellings.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "37.2308",
+        longitude: "-108.4618",
+        rating: "4.4",
+        review_count: 1543,
+        activities: ["Hiking", "Photography", "Cultural Sites", "Scenic Views", "Camping", "Wildlife Viewing"],
+        weather: {
+          may: {
+            high: "70°F",
+            low: "40°F",
+            precipitation: "1.0\""
+          }
+        },
+        highlights: ["Cliff Palace", "Balcony House", "Long House", "Mesa Top Loop Road", "Wetherill Mesa"],
+        best_months: ["May", "June", "September", "October"],
+        monthly_notes: {
+          may: "May is ideal for touring the cliff dwellings with mild temperatures and spring wildflowers."
+        }
+      },
+      {
+        name: "Great Sand Dunes National Park",
+        state: "Colorado",
+        description: "Great Sand Dunes National Park is located in southern Colorado. The park contains the tallest sand dunes in North America, rising over 750 feet against the dramatic backdrop of the Sangre de Cristo Mountains.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "37.7916",
+        longitude: "-105.5943",
+        rating: "4.3",
+        review_count: 1876,
+        activities: ["Hiking", "Photography", "Sand Surfing", "Stargazing", "Camping", "Wildlife Viewing"],
+        weather: {
+          may: {
+            high: "68°F",
+            low: "38°F",
+            precipitation: "1.5\""
+          }
+        },
+        highlights: ["Tall Dunes", "Medano Creek", "Sangre de Cristo Mountains", "Star Dune", "Sand Surfing"],
+        best_months: ["May", "June", "September", "October"],
+        monthly_notes: {
+          may: "May offers great conditions for exploring the dunes before summer heat, with possible creek flow for cooling off."
+        }
+      },
+      {
+        name: "Black Canyon of the Gunnison National Park",
+        state: "Colorado",
+        description: "Black Canyon of the Gunnison National Park is located in western Colorado. The park protects a section of the Gunnison River canyon, known for its dark walls and dramatic, narrow gorge.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "38.5753",
+        longitude: "-107.7416",
+        rating: "4.5",
+        review_count: 987,
+        activities: ["Photography", "Hiking", "Rock Climbing", "Scenic Views", "Stargazing", "Wildlife Viewing"],
+        weather: {
+          may: {
+            high: "65°F",
+            low: "35°F",
+            precipitation: "1.8\""
+          }
+        },
+        highlights: ["South Rim Drive", "Painted Wall", "Sunset View", "Gunnison Point", "Cedar Point"],
+        best_months: ["May", "June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May provides excellent viewing conditions with clear skies and comfortable temperatures for rim trail hiking."
+        }
       }
     ];
     
@@ -839,6 +1069,296 @@ export class MemStorage implements IStorage {
         best_time_of_day: "morning",
         best_months: ["May", "June", "July", "August", "September", "October"],
         tips: "Stop at Jordan Pond House for famous popovers. Path is suitable for all ages."
+      },
+      // Grand Teton Activities (Park ID 11)
+      {
+        park_id: 11,
+        name: "Jenny Lake",
+        description: "A pristine alpine lake surrounded by towering peaks, offering boat rides and hiking trails.",
+        category: "viewpoint",
+        duration_minutes: 120,
+        difficulty: "easy",
+        latitude: "43.7537",
+        longitude: "-110.7285",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "morning",
+        best_months: ["June", "July", "August", "September"],
+        tips: "Take the boat shuttle across the lake to save time or enjoy the walk around the perimeter."
+      },
+      {
+        park_id: 11,
+        name: "Cascade Canyon Trail",
+        description: "A popular hiking trail offering spectacular views of the Teton Range and alpine scenery.",
+        category: "hiking",
+        duration_minutes: 240,
+        difficulty: "moderate",
+        latitude: "43.7584",
+        longitude: "-110.7423",
+        image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+        best_time_of_day: "morning",
+        best_months: ["June", "July", "August", "September"],
+        tips: "Start early to avoid crowds and afternoon thunderstorms. Trail can be busy during peak season."
+      },
+      // Rocky Mountain Activities (Park ID 12)
+      {
+        park_id: 12,
+        name: "Bear Lake",
+        description: "An iconic subalpine lake reflecting the surrounding peaks, accessible via an easy paved trail.",
+        category: "viewpoint",
+        duration_minutes: 60,
+        difficulty: "easy",
+        latitude: "40.3139",
+        longitude: "-105.6450",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "morning",
+        best_months: ["June", "July", "August", "September"],
+        tips: "Very popular spot - arrive early for parking. Perfect for families with young children."
+      },
+      {
+        park_id: 12,
+        name: "Trail Ridge Road",
+        description: "One of the highest paved roads in North America, offering spectacular alpine views.",
+        category: "scenic drive",
+        duration_minutes: 180,
+        difficulty: "easy",
+        latitude: "40.4319",
+        longitude: "-105.7594",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "afternoon",
+        best_months: ["June", "July", "August", "September", "October"],
+        tips: "Road typically closes in winter. Check conditions before visiting. Bring warm clothes for altitude."
+      },
+      // Sequoia Activities (Park ID 13)
+      {
+        park_id: 13,
+        name: "General Sherman Tree",
+        description: "Visit the largest tree on Earth by volume, a giant sequoia over 2,000 years old.",
+        category: "viewpoint",
+        duration_minutes: 90,
+        difficulty: "easy",
+        latitude: "36.5816",
+        longitude: "-118.7516",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+        best_time_of_day: "morning",
+        best_months: ["May", "June", "July", "August", "September"],
+        tips: "Paved trail makes this accessible to most visitors. Can be crowded during peak season."
+      },
+      {
+        park_id: 13,
+        name: "Moro Rock",
+        description: "Climb this granite dome for panoramic views of the Great Western Divide and Central Valley.",
+        category: "hiking",
+        duration_minutes: 120,
+        difficulty: "moderate",
+        latitude: "36.5459",
+        longitude: "-118.7681",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+        best_time_of_day: "afternoon",
+        best_months: ["May", "June", "July", "August", "September"],
+        tips: "Steep stairs and no railings in some sections. Not recommended for those afraid of heights."
+      },
+      // Kings Canyon Activities (Park ID 14)
+      {
+        park_id: 14,
+        name: "General Grant Tree",
+        description: "Known as the Nation's Christmas Tree, this giant sequoia is the second largest tree in the world.",
+        category: "viewpoint",
+        duration_minutes: 60,
+        difficulty: "easy",
+        latitude: "36.7325",
+        longitude: "-118.9725",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+        best_time_of_day: "morning",
+        best_months: ["May", "June", "July", "August", "September"],
+        tips: "Easy paved loop trail through the Grant Grove. Great for all ages."
+      },
+      {
+        park_id: 14,
+        name: "Zumwalt Meadow",
+        description: "A peaceful boardwalk loop through a beautiful meadow surrounded by granite cliffs.",
+        category: "hiking",
+        duration_minutes: 90,
+        difficulty: "easy",
+        latitude: "36.7987",
+        longitude: "-118.8421",
+        image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+        best_time_of_day: "morning",
+        best_months: ["May", "June", "July", "August", "September"],
+        tips: "Boardwalk protects the delicate meadow ecosystem. Great for photography and wildlife viewing."
+      },
+      // Death Valley Activities (Park ID 15)
+      {
+        park_id: 15,
+        name: "Badwater Basin",
+        description: "The lowest point in North America at 282 feet below sea level, featuring vast salt flats.",
+        category: "viewpoint",
+        duration_minutes: 60,
+        difficulty: "easy",
+        latitude: "36.2297",
+        longitude: "-116.7669",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "morning",
+        best_months: ["March", "April", "May", "October", "November"],
+        tips: "Bring plenty of water and sun protection. Avoid midday visits in hot weather."
+      },
+      {
+        park_id: 15,
+        name: "Zabriskie Point",
+        description: "Iconic overlook offering panoramic views of the colorful badlands and golden hills.",
+        category: "viewpoint",
+        duration_minutes: 45,
+        difficulty: "easy",
+        latitude: "36.4201",
+        longitude: "-116.8120",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "sunrise",
+        best_months: ["All year"],
+        tips: "Famous sunrise spot. Arrive early for the best light and fewer crowds."
+      },
+      // Capitol Reef Activities (Park ID 16)
+      {
+        park_id: 16,
+        name: "Petroglyphs Trail",
+        description: "An easy walk along ancient rock art panels created by the Fremont people over 1,000 years ago.",
+        category: "hiking",
+        duration_minutes: 75,
+        difficulty: "easy",
+        latitude: "38.2844",
+        longitude: "-111.2472",
+        image_url: "https://images.unsplash.com/photo-1583398561012-8645a7e5b399",
+        best_time_of_day: "morning",
+        best_months: ["April", "May", "June", "September", "October"],
+        tips: "Interpretive signs help explain the petroglyphs. Bring water and sun protection."
+      },
+      {
+        park_id: 16,
+        name: "Hickman Bridge",
+        description: "A natural stone bridge formed by water erosion, accessible via a moderate hiking trail.",
+        category: "hiking",
+        duration_minutes: 90,
+        difficulty: "moderate",
+        latitude: "38.2978",
+        longitude: "-111.2206",
+        image_url: "https://images.unsplash.com/photo-1583398561012-8645a7e5b399",
+        best_time_of_day: "afternoon",
+        best_months: ["April", "May", "June", "September", "October"],
+        tips: "Well-maintained trail with moderate elevation gain. Great for photography."
+      },
+      // Canyonlands Activities (Park ID 17)
+      {
+        park_id: 17,
+        name: "Mesa Arch",
+        description: "Famous natural stone arch offering spectacular sunrise views of the surrounding canyon country.",
+        category: "viewpoint",
+        duration_minutes: 120,
+        difficulty: "easy",
+        latitude: "38.3912",
+        longitude: "-109.8665",
+        image_url: "https://images.unsplash.com/photo-1583398561012-8645a7e5b399",
+        best_time_of_day: "sunrise",
+        best_months: ["April", "May", "September", "October"],
+        tips: "Very popular sunrise spot. Arrive at least 30 minutes before sunrise for best position."
+      },
+      {
+        park_id: 17,
+        name: "Grand View Point",
+        description: "Sweeping overlook providing panoramic views of the Colorado River and surrounding canyonlands.",
+        category: "viewpoint",
+        duration_minutes: 60,
+        difficulty: "easy",
+        latitude: "38.2916",
+        longitude: "-109.8850",
+        image_url: "https://images.unsplash.com/photo-1583398561012-8645a7e5b399",
+        best_time_of_day: "afternoon",
+        best_months: ["April", "May", "September", "October"],
+        tips: "Accessible by car with short walk to viewpoint. Best light in late afternoon."
+      },
+      // Mesa Verde Activities (Park ID 18)
+      {
+        park_id: 18,
+        name: "Cliff Palace",
+        description: "The largest cliff dwelling in North America, home to ancestral Puebloan people 700 years ago.",
+        category: "cultural site",
+        duration_minutes: 120,
+        difficulty: "moderate",
+        latitude: "37.1916",
+        longitude: "-108.4731",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "morning",
+        best_months: ["May", "June", "September", "October"],
+        tips: "Guided tours required. Purchase tickets in advance. Involves climbing ladders."
+      },
+      {
+        park_id: 18,
+        name: "Mesa Top Loop Road",
+        description: "A scenic drive with multiple overlooks of cliff dwellings and archaeological sites.",
+        category: "scenic drive",
+        duration_minutes: 150,
+        difficulty: "easy",
+        latitude: "37.2308",
+        longitude: "-108.4618",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "afternoon",
+        best_months: ["May", "June", "September", "October"],
+        tips: "Self-guided drive with multiple stops. Allow 2-3 hours for all viewpoints."
+      },
+      // Great Sand Dunes Activities (Park ID 19)
+      {
+        park_id: 19,
+        name: "Dunes Hiking",
+        description: "Climb North America's tallest sand dunes for incredible views of the surrounding mountains.",
+        category: "hiking",
+        duration_minutes: 180,
+        difficulty: "difficult",
+        latitude: "37.7916",
+        longitude: "-105.5943",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "early morning",
+        best_months: ["May", "June", "September", "October"],
+        tips: "Sand can be very hot. Start early, bring lots of water, and consider sand shoes."
+      },
+      {
+        park_id: 19,
+        name: "Medano Creek",
+        description: "Seasonal creek at the base of the dunes, popular for splashing and cooling off.",
+        category: "viewpoint",
+        duration_minutes: 120,
+        difficulty: "easy",
+        latitude: "37.7850",
+        longitude: "-105.5889",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "afternoon",
+        best_months: ["May", "June"],
+        tips: "Creek flows best in late spring/early summer from snowmelt. Perfect for families."
+      },
+      // Black Canyon Activities (Park ID 20)
+      {
+        park_id: 20,
+        name: "South Rim Drive",
+        description: "Scenic drive along the canyon rim with multiple overlooks of the dramatic black walls.",
+        category: "scenic drive",
+        duration_minutes: 120,
+        difficulty: "easy",
+        latitude: "38.5753",
+        longitude: "-107.7416",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "afternoon",
+        best_months: ["May", "June", "July", "August", "September"],
+        tips: "Multiple overlooks accessible by short walks from parking areas."
+      },
+      {
+        park_id: 20,
+        name: "Rim Rock Trail",
+        description: "Easy trail along the canyon rim offering multiple viewpoints of the Gunnison River far below.",
+        category: "hiking",
+        duration_minutes: 90,
+        difficulty: "easy",
+        latitude: "38.5789",
+        longitude: "-107.7435",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e",
+        best_time_of_day: "morning",
+        best_months: ["May", "June", "July", "August", "September"],
+        tips: "Paved trail suitable for all abilities. Stay back from cliff edges."
       }
     ];
     
