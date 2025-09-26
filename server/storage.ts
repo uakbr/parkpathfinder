@@ -697,6 +697,190 @@ export class MemStorage implements IStorage {
         monthly_notes: {
           may: "May provides excellent viewing conditions with clear skies and comfortable temperatures for rim trail hiking."
         }
+      },
+      {
+        name: "Petrified Forest National Park",
+        state: "Arizona",
+        description: "Petrified Forest National Park is located in northeastern Arizona. The park preserves one of the world's largest concentrations of petrified wood and features colorful badlands, archaeological sites, and fossils.",
+        image_url: "https://images.unsplash.com/photo-1527833172401-482728b8a56c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "34.9099",
+        longitude: "-109.8068",
+        rating: "4.3",
+        review_count: 1234,
+        activities: ["Hiking", "Photography", "Cultural Sites", "Scenic Drives", "Stargazing", "Fossil Viewing"],
+        weather: {
+          may: {
+            high: "78°F",
+            low: "48°F",
+            precipitation: "0.5\""
+          }
+        },
+        highlights: ["Petrified Wood", "Painted Desert", "Pueblo Ruins", "Route 66", "Crystal Forest"],
+        best_months: ["April", "May", "September", "October"],
+        monthly_notes: {
+          may: "May offers excellent weather for exploring the colorful badlands and ancient petrified logs."
+        }
+      },
+      {
+        name: "Saguaro National Park",
+        state: "Arizona",
+        description: "Saguaro National Park is located in southern Arizona. The park protects part of the Sonoran Desert, including forests of towering saguaro cacti, the universal symbol of the American Southwest.",
+        image_url: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "32.2967",
+        longitude: "-110.5756",
+        rating: "4.4",
+        review_count: 1876,
+        activities: ["Hiking", "Photography", "Wildlife Viewing", "Scenic Drives", "Stargazing", "Camping"],
+        weather: {
+          may: {
+            high: "88°F",
+            low: "65°F",
+            precipitation: "0.3\""
+          }
+        },
+        highlights: ["Giant Saguaros", "Desert Wildlife", "Scenic Loop Drive", "Desert Museum", "Hiking Trails"],
+        best_months: ["March", "April", "May", "October", "November"],
+        monthly_notes: {
+          may: "May provides warm but comfortable temperatures for desert hiking and saguaro viewing."
+        }
+      },
+      {
+        name: "Carlsbad Caverns National Park",
+        state: "New Mexico",
+        description: "Carlsbad Caverns National Park is located in the Chihuahuan Desert of southeastern New Mexico. The park preserves Carlsbad Cavern and numerous other caves formed in Permian-age limestone.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "32.1479",
+        longitude: "-104.5567",
+        rating: "4.5",
+        review_count: 2543,
+        activities: ["Cave Tours", "Photography", "Wildlife Viewing", "Hiking", "Stargazing", "Bat Viewing"],
+        weather: {
+          may: {
+            high: "82°F",
+            low: "58°F",
+            precipitation: "0.8\""
+          }
+        },
+        highlights: ["Big Room", "Bat Flight Program", "King's Palace", "Natural Entrance", "Lechuguilla Cave"],
+        best_months: ["April", "May", "September", "October"],
+        monthly_notes: {
+          may: "May is ideal for visiting the caves with comfortable surface temperatures and active bat flights beginning."
+        }
+      },
+      {
+        name: "Guadalupe Mountains National Park",
+        state: "Texas",
+        description: "Guadalupe Mountains National Park is located in far western Texas. The park contains Guadalupe Peak, the highest point in Texas, and features rugged mountain wilderness and diverse desert and mountain ecosystems.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "31.8955",
+        longitude: "-104.8607",
+        rating: "4.2",
+        review_count: 987,
+        activities: ["Hiking", "Photography", "Backpacking", "Wildlife Viewing", "Stargazing", "Rock Climbing"],
+        weather: {
+          may: {
+            high: "79°F",
+            low: "55°F",
+            precipitation: "0.9\""
+          }
+        },
+        highlights: ["Guadalupe Peak", "Devil's Hall Trail", "McKittrick Canyon", "El Capitan", "Pine Springs"],
+        best_months: ["April", "May", "October", "November"],
+        monthly_notes: {
+          may: "May offers excellent hiking conditions with moderate temperatures and spring wildflowers in the canyons."
+        }
+      },
+      {
+        name: "Big Bend National Park",
+        state: "Texas",
+        description: "Big Bend National Park is located in southwest Texas along the Rio Grande. The park encompasses a large area of the Chihuahuan Desert and includes the entire Chisos mountain range.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "29.1275",
+        longitude: "-103.2420",
+        rating: "4.6",
+        review_count: 2134,
+        activities: ["Hiking", "Photography", "Rafting", "Wildlife Viewing", "Stargazing", "Hot Springs"],
+        weather: {
+          may: {
+            high: "89°F",
+            low: "65°F",
+            precipitation: "0.7\""
+          }
+        },
+        highlights: ["Santa Elena Canyon", "Chisos Mountains", "Rio Grande Village", "Lost Mine Trail", "Hot Springs"],
+        best_months: ["March", "April", "May", "October", "November"],
+        monthly_notes: {
+          may: "May provides warm but manageable temperatures for exploring this vast desert park along the Rio Grande."
+        }
+      },
+      {
+        name: "Hot Springs National Park",
+        state: "Arkansas",
+        description: "Hot Springs National Park is located in central Arkansas. The park preserves the natural hot springs and the historic bathhouse row in the city of Hot Springs, offering a unique blend of nature and history.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "34.5117",
+        longitude: "-93.0429",
+        rating: "4.1",
+        review_count: 1543,
+        activities: ["Hiking", "Photography", "Cultural Sites", "Scenic Views", "Hot Springs", "Historic Tours"],
+        weather: {
+          may: {
+            high: "78°F",
+            low: "60°F",
+            precipitation: "4.2\""
+          }
+        },
+        highlights: ["Bathhouse Row", "Hot Springs", "Hiking Trails", "Historic District", "Gulpha Gorge"],
+        best_months: ["April", "May", "June", "September", "October"],
+        monthly_notes: {
+          may: "May offers pleasant temperatures for exploring both the historic sites and natural hot springs."
+        }
+      },
+      {
+        name: "Mammoth Cave National Park",
+        state: "Kentucky",
+        description: "Mammoth Cave National Park is located in central Kentucky. The park preserves the world's longest known cave system, with more than 420 miles of surveyed passageways through limestone bedrock.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "37.1862",
+        longitude: "-86.1038",
+        rating: "4.3",
+        review_count: 2876,
+        activities: ["Cave Tours", "Hiking", "Photography", "Wildlife Viewing", "Camping", "Fishing"],
+        weather: {
+          may: {
+            high: "75°F",
+            low: "55°F",
+            precipitation: "4.0\""
+          }
+        },
+        highlights: ["Historic Tour", "Wild Cave Tour", "Green River", "Cedar Sink", "Sand Cave"],
+        best_months: ["April", "May", "June", "September", "October"],
+        monthly_notes: {
+          may: "May provides comfortable surface temperatures and cave tours are in full operation."
+        }
+      },
+      {
+        name: "Great Basin National Park",
+        state: "Nevada",
+        description: "Great Basin National Park is located in eastern Nevada. The park preserves a representative portion of the Great Basin Desert and includes Wheeler Peak, ancient bristlecone pines, and Lehman Caves.",
+        image_url: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        latitude: "39.0055",
+        longitude: "-114.2579",
+        rating: "4.4",
+        review_count: 876,
+        activities: ["Hiking", "Photography", "Cave Tours", "Stargazing", "Wildlife Viewing", "Camping"],
+        weather: {
+          may: {
+            high: "65°F",
+            low: "40°F",
+            precipitation: "1.5\""
+          }
+        },
+        highlights: ["Wheeler Peak", "Bristlecone Pine Grove", "Lehman Caves", "Teresa Lake", "Stella Lake"],
+        best_months: ["June", "July", "August", "September"],
+        monthly_notes: {
+          may: "May can still have snow at higher elevations, but lower areas offer good hiking conditions."
+        }
       }
     ];
     
