@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { generateAIRecommendation, generateTripItinerary } from "./ai";
+import { getCurrentWeather, formatWeatherForDisplay } from "./weather";
 import { 
   insertAiRecommendationSchema, 
   insertTripPlanSchema, 
@@ -44,6 +45,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(park);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Get current weather for a park
+  app.get("/api/parks/:id/weather", async (req, res) => {
+    try {
+      const parkId = parseInt(req.params.id);
+      if (isNaN(parkId)) {
+        return res.status(400).json({ message: "Invalid park ID" });
+      }
+      
+      const park = await storage.getParkById(parkId);
+      if (!park) {
+        return res.status(404).json({ message: "Park not found" });
+      }
+      
+      const weatherData = await getCurrentWeather(park.latitude, park.longitude);
+      const formattedWeather = formatWeatherForDisplay(weatherData);
+      
+      res.json(formattedWeather);
+    } catch (error: any) {
+      console.error("Error fetching weather:", error);
+      res.status(500).json({ 
+        message: "Failed to fetch weather data",
+        weather: {
+          high: "N/A",
+          low: "N/A", 
+          precipitation: "N/A"
+        }
+      });
     }
   });
 
