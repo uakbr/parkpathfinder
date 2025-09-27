@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Park } from "@/lib/types";
+import { Park, MonthlyWeather } from "@/lib/types";
 import { activityIcons, getActivityIcon } from "@/lib/utils";
 import { getAIRecommendation } from "@/lib/ai-service";
+import { getCurrentWeatherForPark } from "@/lib/weather-service";
 import { X, MapPin, Star, SunMedium, Moon, CloudRain, CalendarPlus, Info, Loader2 } from "lucide-react";
 
 interface ParkDetailProps {
@@ -17,9 +18,12 @@ export function ParkDetail({ park, selectedMonth, onClose }: ParkDetailProps) {
   const [aiRecommendation, setAiRecommendation] = useState<string>("");
   const [isLoadingRecommendation, setIsLoadingRecommendation] = useState<boolean>(false);
   const [showFullDescription, setShowFullDescription] = useState<boolean>(false);
+  const [currentWeather, setCurrentWeather] = useState<MonthlyWeather | null>(null);
+  const [isLoadingWeather, setIsLoadingWeather] = useState<boolean>(true);
   
   const monthLower = selectedMonth.toLowerCase();
-  const weather = park.weather[monthLower] || {
+  // Use live weather data if available, otherwise fallback to static data
+  const weather = currentWeather || park.weather[monthLower] || {
     high: "N/A",
     low: "N/A",
     precipitation: "N/A"
@@ -46,6 +50,24 @@ export function ParkDetail({ park, selectedMonth, onClose }: ParkDetailProps) {
     
     loadRecommendation();
   }, [park.id, selectedMonth]);
+
+  // Load current weather when park changes
+  useEffect(() => {
+    const loadWeather = async () => {
+      setIsLoadingWeather(true);
+      try {
+        const weatherData = await getCurrentWeatherForPark(park.id);
+        setCurrentWeather(weatherData);
+      } catch (error) {
+        console.error("Failed to load weather:", error);
+        setCurrentWeather(null);
+      } finally {
+        setIsLoadingWeather(false);
+      }
+    };
+
+    loadWeather();
+  }, [park.id]);
   
   return (
     <div className="p-0 overflow-hidden">
@@ -103,19 +125,21 @@ export function ParkDetail({ park, selectedMonth, onClose }: ParkDetailProps) {
           
           {/* Right column - Weather */}
           <div>
-            <h4 className="font-medium text-xs uppercase tracking-wide text-muted-foreground mb-2">{selectedMonth} Weather</h4>
+            <h4 className="font-medium text-xs uppercase tracking-wide text-muted-foreground mb-2">
+              {isLoadingWeather ? "Loading Weather..." : "Current Weather"}
+            </h4>
             <div className="grid grid-cols-3 gap-1 text-xs">
               <div className="flex flex-col items-center">
                 <SunMedium className="h-3 w-3 text-yellow-500 mb-1" />
-                <span>{weather.high}</span>
+                <span>{isLoadingWeather ? "..." : weather.high}</span>
               </div>
               <div className="flex flex-col items-center">
                 <Moon className="h-3 w-3 text-blue-500 mb-1" />
-                <span>{weather.low}</span>
+                <span>{isLoadingWeather ? "..." : weather.low}</span>
               </div>
               <div className="flex flex-col items-center">
                 <CloudRain className="h-3 w-3 text-blue-400 mb-1" />
-                <span>{weather.precipitation}</span>
+                <span>{isLoadingWeather ? "..." : weather.precipitation}</span>
               </div>
             </div>
           </div>
