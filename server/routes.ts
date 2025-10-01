@@ -83,6 +83,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/parks", async (req, res) => {
     try {
       const parks = await storage.getAllParks();
+      // Add cache headers for static data
+      res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes
       res.json(parks);
     } catch (error) {
       console.error("Failed to retrieve parks:", error);
@@ -100,6 +102,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Park not found" });
       }
       
+      // Add cache headers for static data
+      res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes
       res.json(park);
     } catch (error) {
       if (error instanceof Error && error.message.includes("Invalid")) {
@@ -229,6 +233,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const parkId = validateParkId(req.params.id);
       
       const activities = await storage.getParkActivities(parkId);
+      // Add cache headers for static data
+      res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes
       res.json(activities);
     } catch (error) {
       if (error instanceof Error && error.message.includes("Invalid")) {
