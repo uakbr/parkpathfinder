@@ -3,6 +3,8 @@
  * Provides current weather data for park locations
  */
 
+const WEATHER_TIMEOUT_MS = 10000; // 10 seconds
+
 interface WeatherData {
   temp: number;
   temp_min: number;
@@ -55,7 +57,12 @@ export async function getCurrentWeather(latitude: string, longitude: string): Pr
   try {
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=imperial`;
     
-    const response = await fetch(url);
+    // Add timeout to prevent hanging
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), WEATHER_TIMEOUT_MS);
+    
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
     
     if (!response.ok) {
       console.error(`OpenWeather API error: ${response.status} ${response.statusText}`);

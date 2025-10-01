@@ -21,6 +21,7 @@ import {
   type TripActivity,
   type InsertTripActivity
 } from "@shared/schema";
+import { createHash } from "crypto";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -70,11 +71,13 @@ export class MemStorage {
     this.initializeParkActivities();
   }
 
-  // Generate a safe cache key for AI recommendations
+  // Generate a safe cache key for AI recommendations using hash
   private generateCacheKey(parkId: number, month: string, preferences: string): string {
-    // Use a deterministic approach that handles special characters and length
-    const sanitized = preferences.trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').substring(0, 50);
-    return `${parkId}:${month}:${sanitized}`;
+    // Use SHA-256 hash to avoid cache collisions
+    const hash = createHash('sha256')
+      .update(`${parkId}:${month}:${preferences.trim().toLowerCase()}`)
+      .digest('hex');
+    return `${parkId}:${month}:${hash.substring(0, 16)}`;
   }
 
   // Atomic ID generation methods to prevent race conditions

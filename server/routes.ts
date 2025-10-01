@@ -14,7 +14,6 @@ import {
 const MAX_PREFERENCES_LENGTH = 500;
 const MAX_TRIP_NAME_LENGTH = 100;
 const MAX_TRIP_DAYS = 30;
-const CACHE_KEY_LENGTH = 100;
 const VALID_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as const;
 
 // Helper functions to reduce duplicate validation logic
@@ -53,28 +52,6 @@ function sanitizePreferences(preferences: any): string {
   return preferences.trim().substring(0, MAX_PREFERENCES_LENGTH);
 }
 
-// Centralized error handling to avoid leaking internal details
-function handleError(error: unknown, fallbackMessage: string = "An error occurred") {
-  console.error("Route error:", error);
-  
-  // Only expose safe error messages to clients
-  if (error instanceof Error) {
-    // Log full details server-side
-    console.error("Error details:", error.message);
-    console.error("Stack trace:", error.stack);
-    
-    // Return generic message to client unless it's a known safe error
-    const safeErrors = ["Park not found", "Trip plan not found", "Activity not found", "Invalid", "Missing"];
-    const isSafeError = safeErrors.some(safe => error.message.includes(safe));
-    
-    return {
-      message: isSafeError ? error.message : fallbackMessage
-    };
-  }
-  
-  return { message: fallbackMessage };
-}
-
 export async function registerRoutes(app: Express): Promise<Server> {
   // put application routes here
   // prefix all routes with /api
@@ -86,25 +63,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         status: "ok",
         uptime: process.uptime(),
         env: process.env.NODE_ENV || "development",
-        timestamp: new Date().toISOString(),
-        services: {
-          storage: "unknown",
-          openai: "unknown"
-        }
+        timestamp: new Date().toISOString()
       };
-
-      // Test storage access
-      try {
-        await storage.getAllParks();
-        health.services.storage = "ok";
-      } catch (error) {
-        console.error("Storage health check failed:", error);
-        health.services.storage = "error";
-        health.status = "degraded";
-      }
-
-      // Test OpenAI availability (non-blocking)
-      health.services.openai = process.env.OPENAI_API_KEY ? "configured" : "not_configured";
 
       res.json(health);
     } catch (error) {
@@ -123,7 +83,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const parks = await storage.getAllParks();
       res.json(parks);
     } catch (error) {
-      res.status(500).json(handleError(error, "Failed to retrieve parks"));
+      console.error("Failed to retrieve parks:", error);
+      res.status(500).json({ message: "Failed to retrieve parks" });
     }
   });
 
@@ -139,7 +100,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json(park);
     } catch (error) {
-      res.status(500).json(handleError(error, "Failed to retrieve park"));
+      if (error instanceof Error && error.message.includes("Invalid")) {
+        return res.status(400).json({ message: error.message });
+      }
+      console.error("Failed to retrieve park:", error);
+      res.status(500).json({ message: "Failed to retrieve park" });
     }
   });
 
@@ -181,7 +146,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const parks = await storage.getParksByMonth(month);
       res.json(parks);
     } catch (error) {
-      res.status(500).json(handleError(error, "Failed to retrieve parks for month"));
+      if (error instanceof Error && error.message.includes("Invalid")) {
+        return res.status(400).json({ message: error.message });
+      }
+      console.error("Failed to retrieve parks for month:", error);
+      res.status(500).json({ message: "Failed to retrieve parks for month" });
     }
   });
 
@@ -202,11 +171,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log(`Received recommendation request for park ${parkIdNum} in ${validMonth}`);
       
-      // Create a cache key from the parameters (truncate to reasonable length)
-      const preferencesKey = sanitizedPreferences.toLowerCase().substring(0, CACHE_KEY_LENGTH);
-      
       // Check if we have a cached recommendation with these exact preferences
-      let recommendation = await storage.getAiRecommendation(parkIdNum, validMonth, preferencesKey);
+      let recommendation = await storage.getAiRecommendation(parkIdNum, validMonth, sanitizedPreferences);
       
       if (!recommendation) {
         console.log("No cached recommendation found, generating new one");
@@ -223,7 +189,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const newRecommendation = {
           park_id: parkIdNum,
           month: validMonth,
-          user_preferences: preferencesKey,
+          user_preferences: sanitizedPreferences,
           recommendation: recommendationText,
           created_at: now
         };
@@ -240,8 +206,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Return the recommendation to the client
       res.json({ recommendation: recommendation.recommendation });
     } catch (error) {
-      console.error("Error in /api/recommendations endpoint:", error);
-      res.status(500).json(handleError(error, "Failed to generate recommendation"));
+      if (error instanceof Error) {
+        if (error.message.includes("Invalid") || error.message.includes("Missing")) {
+          return res.status(400).json({ message: error.message });
+        }
+        if (error.message.includes("not found")) {
+          return res.status(404).json({ message: error.message });
+        }
+      }
+      console.error("Failed to generate recommendation:", error);
+      res.status(500).json({ message: "Failed to generate recommendation" });
     }
   });
 
@@ -255,7 +229,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const activities = await storage.getParkActivities(parkId);
       res.json(activities);
     } catch (error) {
-      res.status(500).json(handleError(error, "Failed to retrieve park activities"));
+      if (error instanceof Error && error.message.includes("Invalid")) {
+        return res.status(400).json({ message: error.message });
+      }
+      console.error("Failed to retrieve park activities:", error);
+      res.status(500).json({ message: "Failed to retrieve park activities" });
     }
   });
   
@@ -274,7 +252,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json(activity);
     } catch (error) {
-      res.status(500).json(handleError(error, "Failed to retrieve activity"));
+      console.error("Failed to retrieve activity:", error);
+      res.status(500).json({ message: "Failed to retrieve activity" });
     }
   });
   
@@ -317,7 +296,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.status(201).json(tripPlan);
     } catch (error) {
-      res.status(500).json(handleError(error, "Failed to create trip plan"));
+      if (error instanceof Error) {
+        if (error.message.includes("Invalid") || error.message.includes("Missing") || error.message.includes("must be")) {
+          return res.status(400).json({ message: error.message });
+        }
+        if (error.message.includes("Maximum number")) {
+          return res.status(429).json({ message: error.message });
+        }
+      }
+      console.error("Failed to create trip plan:", error);
+      res.status(500).json({ message: "Failed to create trip plan" });
     }
   });
   
@@ -336,7 +324,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json(tripPlan);
     } catch (error) {
-      res.status(500).json(handleError(error, "Failed to retrieve trip plan"));
+      console.error("Failed to retrieve trip plan:", error);
+      res.status(500).json({ message: "Failed to retrieve trip plan" });
     }
   });
   
@@ -351,7 +340,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const tripDays = await storage.getTripDaysByTripId(tripId);
       res.json(tripDays);
     } catch (error) {
-      res.status(500).json(handleError(error, "Failed to retrieve trip days"));
+      console.error("Failed to retrieve trip days:", error);
+      res.status(500).json({ message: "Failed to retrieve trip days" });
     }
   });
   
@@ -366,7 +356,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const activities = await storage.getTripActivitiesByDayId(dayId);
       res.json(activities);
     } catch (error) {
-      res.status(500).json(handleError(error, "Failed to retrieve trip activities"));
+      console.error("Failed to retrieve trip activities:", error);
+      res.status(500).json({ message: "Failed to retrieve trip activities" });
     }
   });
   
@@ -439,13 +430,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       } catch (saveError) {
         // Rollback any partially created data
-        console.error("Failed to save itinerary, rolling back:", saveError);
+        console.error("Failed to save itinerary:", saveError);
         try {
           await storage.deleteTripDaysByTripId(tripId);
+          // Throw specific error indicating clean rollback
+          throw new Error("Failed to save itinerary. All changes have been rolled back.");
         } catch (rollbackError) {
-          console.error("Rollback also failed:", rollbackError);
+          console.error("Rollback failed, data may be in inconsistent state:", rollbackError);
+          // Throw error indicating both save and rollback failed
+          throw new Error("Failed to save itinerary and rollback failed. Data may be incomplete.");
         }
-        throw saveError;
       }
       
       // Return the saved itinerary
@@ -461,8 +455,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json(fullItinerary);
     } catch (error) {
-      console.error("Error generating trip itinerary:", error);
-      res.status(500).json(handleError(error, "Failed to generate trip itinerary"));
+      if (error instanceof Error && error.message.includes("not found")) {
+        return res.status(404).json({ message: error.message });
+      }
+      console.error("Failed to generate trip itinerary:", error);
+      res.status(500).json({ message: "Failed to generate trip itinerary" });
     }
   });
 

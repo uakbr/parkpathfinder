@@ -57,8 +57,8 @@ export default function ParksList() {
                 <ParkCard
                   key={park.id}
                   park={park}
-                  selectedMonth="September"
-                  onSelect={() => {}}
+                  isSelected={false}
+                  onClick={() => window.location.href = `/`}
                 />
               ))}
             </div>
