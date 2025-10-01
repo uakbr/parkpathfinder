@@ -81,6 +81,8 @@ export class MemStorage {
   }
 
   // Atomic ID generation methods to prevent race conditions
+  // Note: These are safe in single-threaded Node.js event loop.
+  // If moving to multi-threaded/clustered architecture, use atomic counters or DB sequences.
   private getNextUserId(): number {
     return this.currentUserId++;
   }

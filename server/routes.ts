@@ -41,6 +41,8 @@ function validateDays(days: any): number {
 }
 
 function sanitizePreferences(preferences: any): string {
+  // Note: No HTML escaping needed - React auto-escapes all user content.
+  // If rendering preferences outside React, add HTML sanitization.
   if (typeof preferences !== 'string' || preferences.trim().length === 0) {
     throw new Error("Preferences must be a non-empty string");
   }
