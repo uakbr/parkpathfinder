@@ -1,11 +1,11 @@
 import OpenAI from "openai";
 import { NationalPark, ParkActivity } from "@shared/schema";
+import { config } from "./config";
 
 // Constants for AI configuration
 const OPENAI_TIMEOUT_MS = 30000; // 30 seconds
 const MAX_TOKENS = 500;
 const TEMPERATURE = 0.7;
-const FALLBACK_CACHE_KEY_LENGTH = 100;
 
 export interface ItineraryDay {
   day_number: number;
@@ -24,10 +24,9 @@ export interface ItineraryActivity {
 }
 
 function getOpenAI(): OpenAI | null {
-  const key = process.env.OPENAI_API_KEY;
-  if (!key) return null;
+  if (!config.openaiKey) return null;
   return new OpenAI({ 
-    apiKey: key,
+    apiKey: config.openaiKey,
     timeout: OPENAI_TIMEOUT_MS
   });
 }

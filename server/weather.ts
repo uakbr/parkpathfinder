@@ -3,6 +3,8 @@
  * Provides current weather data for park locations
  */
 
+import { config } from "./config";
+
 const WEATHER_TIMEOUT_MS = 10000; // 10 seconds
 
 interface WeatherData {
@@ -34,7 +36,7 @@ interface OpenWeatherResponse {
  * @returns Weather data formatted for the park detail component
  */
 export async function getCurrentWeather(latitude: string, longitude: string): Promise<WeatherData | null> {
-  const apiKey = process.env.OPENWEATHER_API_KEY;
+  const apiKey = config.openWeatherKey;
   
   if (!apiKey) {
     console.log("OpenWeather API key not configured");

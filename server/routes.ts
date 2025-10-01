@@ -9,12 +9,12 @@ import {
   insertTripDaySchema, 
   insertTripActivitySchema 
 } from "@shared/schema";
+import { VALID_MONTHS } from "@shared/constants";
 
 // Constants for input validation
 const MAX_PREFERENCES_LENGTH = 500;
 const MAX_TRIP_NAME_LENGTH = 100;
 const MAX_TRIP_DAYS = 30;
-const VALID_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as const;
 
 // Helper functions to reduce duplicate validation logic
 function validateParkId(parkId: any): number {
