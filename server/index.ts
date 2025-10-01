@@ -2,6 +2,7 @@ import "./env";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { config, validateConfig } from "./config";
 
 const app = express();
 
@@ -14,21 +15,18 @@ app.use(express.urlencoded({ extended: false, limit: '1mb' })); // Limit URL-enc
     const path = req.path;
     let capturedJsonResponse: Record<string, any> | undefined = undefined;
 
-    const originalResJson = res.json;
-    res.json = function (bodyJson, ...args) {
+    // Use a wrapper approach to avoid monkey-patching issues
+    const originalResJson = res.json.bind(res);
+    res.json = function (bodyJson: any, ...args: any[]) {
       capturedJsonResponse = bodyJson;
-      return originalResJson.apply(res, [bodyJson, ...args]);
+      return originalResJson(bodyJson, ...args);
     };
 
     res.on("finish", () => {
-      // Restore original method to prevent memory leaks
-      res.json = originalResJson;
-      
       const duration = Date.now() - start;
       if (path.startsWith("/api")) {
         let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-        const logBody = process.env.LOG_RESP_BODY === '1' || process.env.LOG_RESP_BODY === 'true';
-        if (logBody && capturedJsonResponse) {
+        if (config.logResponseBody && capturedJsonResponse) {
           logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
         }
 
@@ -44,6 +42,9 @@ app.use(express.urlencoded({ extended: false, limit: '1mb' })); // Limit URL-enc
   });
 
 (async () => {
+  // Validate configuration on startup
+  validateConfig();
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -52,7 +53,7 @@ app.use(express.urlencoded({ extended: false, limit: '1mb' })); // Limit URL-enc
     // Structured logging without leaking full response bodies
     try {
       log(`${status} ${message}`, "error");
-      if (process.env.NODE_ENV !== "production" && err?.stack) {
+      if (config.nodeEnv !== "production" && err?.stack) {
         console.error(err.stack);
       }
     } catch {}
@@ -64,19 +65,18 @@ app.use(express.urlencoded({ extended: false, limit: '1mb' })); // Limit URL-enc
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
+  if (config.nodeEnv === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
   }
 
   // Serve on configurable port (default 5000) for API + client
-  const port = Number(process.env.PORT ?? 5000);
   server.listen({
-    port,
+    port: config.port,
     host: "0.0.0.0",
     reusePort: true,
   }, () => {
-    log(`serving on port ${port}`);
+    log(`serving on port ${config.port}`);
   });
 })();

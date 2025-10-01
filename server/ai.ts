@@ -1,11 +1,11 @@
 import OpenAI from "openai";
 import { NationalPark, ParkActivity } from "@shared/schema";
+import { config } from "./config";
 
 // Constants for AI configuration
 const OPENAI_TIMEOUT_MS = 30000; // 30 seconds
 const MAX_TOKENS = 500;
 const TEMPERATURE = 0.7;
-const FALLBACK_CACHE_KEY_LENGTH = 100;
 
 export interface ItineraryDay {
   day_number: number;
@@ -23,76 +23,33 @@ export interface ItineraryActivity {
   order: number;
 }
 
-// Define park data types explicitly
-interface MonthlyWeather {
-  high: string;
-  low: string;
-  precipitation: string;
-}
-
-// Simplified approach: extend NationalPark directly with type assertions
-type SafeParkData = NationalPark & {
-  activities: string[];
-  weather: Record<string, MonthlyWeather>;
-  highlights: string[];
-  best_months: string[];
-  monthly_notes: Record<string, string>;
-};
-
-// Safe validation helper for park data structure
-function validateParkData(parkData: NationalPark): SafeParkData {
-  const activities = Array.isArray(parkData.activities) ? parkData.activities : [];
-  const weather = typeof parkData.weather === 'object' && parkData.weather ? parkData.weather as Record<string, MonthlyWeather> : {};
-  const highlights = Array.isArray(parkData.highlights) ? parkData.highlights : [];
-  const bestMonths = Array.isArray(parkData.best_months) ? parkData.best_months : [];
-  const monthlyNotes = typeof parkData.monthly_notes === 'object' && parkData.monthly_notes ? parkData.monthly_notes as Record<string, string> : {};
-
-  return {
-    ...parkData,
-    activities,
-    weather,
-    highlights,
-    best_months: bestMonths,
-    monthly_notes: monthlyNotes
-  };
-}
 function getOpenAI(): OpenAI | null {
-  const key = process.env.OPENAI_API_KEY;
-  if (!key) return null;
+  if (!config.openaiKey) return null;
   return new OpenAI({ 
-    apiKey: key,
+    apiKey: config.openaiKey,
     timeout: OPENAI_TIMEOUT_MS
   });
 }
 
 // Function to generate AI recommendations for a park visit
 export async function generateAIRecommendation(
-  parkData: NationalPark,
+  park: NationalPark,
   month: string,
   userPreferences: string
 ): Promise<string> {
-  // Safely validate and transform park data structure
-  const park = validateParkData(parkData);
   try {
     const openai = getOpenAI();
     console.log(`Generating AI recommendation for ${park.name} in ${month} with preferences: ${userPreferences}`);
     
     // Format the monthly weather data for better readability
     const monthLower = month.toLowerCase();
-    const weatherData = (park.weather as any)[monthLower] || { high: "N/A", low: "N/A", precipitation: "N/A" };
+    const weather = park.weather as Record<string, any>;
+    const weatherData = weather[monthLower] || { high: "N/A", low: "N/A", precipitation: "N/A" };
     const weatherInfo = `High: ${weatherData.high}, Low: ${weatherData.low}, Precipitation: ${weatherData.precipitation}`;
     
     // Get monthly notes if available
-    const monthlyNotes = (park.monthly_notes as any)?.[monthLower] || "No specific notes for this month.";
+    const monthlyNotes = (park.monthly_notes as Record<string, any>)[monthLower] || "No specific notes for this month.";
     
-    /**
-     * AI Prompt Design Notes:
-     * - Structured format provides consistent context to the AI
-     * - Includes both factual park data and user preferences for personalization
-     * - Specific numbered requirements ensure comprehensive responses
-     * - Weather and timing information helps with practical advice
-     * - Character limits (via MAX_TOKENS) keep responses concise
-     */
     const prompt = `
 You are a National Park expert and travel advisor. You're helping a visitor plan their trip to ${park.name} in ${month}.
 
@@ -149,32 +106,26 @@ Format your response in a conversational, friendly tone. Break up text into smal
     ].join("\n\n");
   } catch (error) {
     console.error("Error generating AI recommendation:", error);
-    if (error instanceof Error) {
-      console.error(`Error details: ${error.message}`);
-      console.error(`Stack trace:`, error.stack);
-    }
-    // Log error but provide fallback
     return "Sorry, I couldn't generate a recommendation at this time. Please try again later.";
   }
 }
 
 // Function to generate an AI-powered trip itinerary
 export async function generateTripItinerary(
-  parkData: NationalPark,
+  park: NationalPark,
   parkActivities: ParkActivity[],
   month: string,
   days: number,
   userPreferences: string
 ): Promise<ItineraryDay[]> {
-  // Safely validate and transform park data structure
-  const park = validateParkData(parkData);
   try {
     const openai = getOpenAI();
     console.log(`Generating ${days}-day trip itinerary for ${park.name} in ${month}`);
     
     // Format the monthly weather data for better readability
     const monthLower = month.toLowerCase();
-    const weatherData = (park.weather as any)[monthLower] || { high: "N/A", low: "N/A", precipitation: "N/A" };
+    const weather = park.weather as Record<string, any>;
+    const weatherData = weather[monthLower] || { high: "N/A", low: "N/A", precipitation: "N/A" };
     const weatherInfo = `High: ${weatherData.high}, Low: ${weatherData.low}, Precipitation: ${weatherData.precipitation}`;
     
     // Format available activities with their details
@@ -189,15 +140,6 @@ export async function generateTripItinerary(
       };
     });
     
-    /**
-     * Trip Itinerary AI Prompt Design:
-     * - JSON response format for structured parsing
-     * - Includes all available activities with IDs for accurate mapping
-     * - Considers duration and difficulty for realistic scheduling
-     * - Weather context for seasonal planning
-     * - User preferences integration for personalization
-     * - Specific output format prevents parsing errors
-     */
     const prompt = `
 You are a National Park trip planner. Create a ${days}-day itinerary for ${park.name} in ${month}.
 
@@ -278,13 +220,7 @@ Make sure your response is ONLY the valid JSON without any other text.
     return generateFallbackItinerary(days, parkActivities);
   } catch (error) {
     console.error("Error generating trip itinerary:", error);
-    if (error instanceof Error) {
-      console.error(`Error details: ${error.message}`);
-      console.error(`Stack trace:`, error.stack);
-    }
-    
     // Return a simple fallback itinerary if AI generation fails
-    console.warn(`Falling back to simple itinerary generation for ${days} days`);
     return generateFallbackItinerary(days, parkActivities);
   }
 }

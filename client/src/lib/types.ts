@@ -1,3 +1,5 @@
+import { VALID_MONTHS, type Month } from "@shared/constants";
+
 export interface Park {
   id: number;
   name: string;
@@ -47,24 +49,11 @@ export interface AIRecommendationResponse {
   recommendation: string;
 }
 
-export type Month = 
-  | "January" 
-  | "February" 
-  | "March" 
-  | "April" 
-  | "May" 
-  | "June" 
-  | "July" 
-  | "August" 
-  | "September" 
-  | "October" 
-  | "November" 
-  | "December";
+// Re-export Month type from shared constants
+export type { Month };
 
-export const monthsArray: Month[] = [
-  "January", "February", "March", "April", "May", "June", 
-  "July", "August", "September", "October", "November", "December"
-];
+// Re-export as array for convenience
+export const monthsArray: Month[] = [...VALID_MONTHS];
 
 export const monthsShortArray = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
